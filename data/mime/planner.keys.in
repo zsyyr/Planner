@@ -1,0 +1,13 @@
+application/x-mrproject
+	_description=Project Plan
+	icon_filename=gnome-mime-application-x-planner
+	default_action_type=application
+	_category=Documents/Project Management
+	short_list_application_ids=planner
+
+application/x-planner
+	_description=Project Plan
+	icon_filename=gnome-mime-application-x-planner
+	default_action_type=application
+	_category=Documents/Project Management
+	short_list_application_ids=planner

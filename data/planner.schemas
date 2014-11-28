@@ -1,0 +1,1790 @@
+<?xml version="1.0"?>
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/planner/views/gantt_view/highlight_critical_path</key>
+      <applyto>/apps/planner/views/gantt_view/highlight_critical_path</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Highlight critical path in Gantt view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Gantt view.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>أبرِز المسارات الحيوية في مشهد جانت</short>
+        <long>ما إذا سيُبرز المهام عبر المسار الحيوي في مشهد جانت أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>Gantt দৃশ্য়ত গুৰুত্বপূৰ্ণ পথবোৰ আলোকিত কৰক</short>
+        <long>Gantt দৃশ্য়ত গুৰুত্বপূৰ্ণ পথৰ সৈতে টাস্কবোৰ আলোকিত কৰিব লাগিবনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Resalta el camín críticu na vista de Gantt</short>
+        <long>Indica si deben resaltase les xeres xunto col camín críticu na vista de Gantt.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Осветяване на критично поле в изгледа „Гантова диаграма“</short>
+        <long>Дали да се осветяват задачите заедно с критичното поле в „Гантова диаграма“.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>Gantt প্রদর্শন ক্ষেত্রে গুরুত্বপূর্ণ ধারা উজ্জ্বল করে প্রদর্শন করা হবে</short>
+        <long>Gantt প্রদর্শন ক্ষেত্রের মধ্যে গুরুত্বপূর্ণ ধারায় উপস্থিত কাজগুলি উজ্জ্বল করা হবে কি না।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Destaca el camí crític en la vista de Gantt</short>
+        <long>Si es ressalten les tasques junt amb els camins crítics a la vista de Gantt.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Destaca el camí crític en la vista de Gantt</short>
+        <long>Si es ressalten les tasques junt amb els camins crítics a la vista de Gantt.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Zvýraznit kritickou cestu v Ganttově pohledu</short>
+        <long>Jestli v Ganttově pohledu zvýraznit úlohy na kritické cestě.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Fremhæv den kritiske vej i Gantt-visning</short>
+        <long>Hvorvidt aktiviteterne langs den kritiske vej skal fremhæves i Gantt-visningen.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Kritischen Pfad in der Gantt-Ansicht hervorheben</short>
+        <long>Legt fest, ob Aufgaben entlang des kritischen Pfades in der Gantt-Ansicht hervorgehoben werden.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>གཱནཊི་མཐོང་སྣང་ནང་ཚབས་ཆེན་འགྲུལ་ལམ་ གཙོ་དམིགས་འབད།</short>
+        <long>གཱནཊི་མཐོང་སྣང་ནང་ ཚབས་ཆེན་འགྲུལ་ལམ་བདའ་སྟེ་ལས་ཀ་ཚུ་ གཙོ་དམིགས་འབད་ནི་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Επισήμανση σημαντικής διαδρομής στην προβολή Gantt</short>
+        <long>Αν θα γίνεται επισήμανση των εργασιών μαζί με τη σημαντική διαδρομή στην προβολή Gantt.</long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>Highlight critical path in Gantt view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Gantt view.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Highlight critical path in Gantt view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Gantt view.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Resalta la ruta crítica en la vista de Gantt</short>
+        <long>Indica si se deben resaltar las tareas junto con la ruta crítica en la vista de Gantt.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Kriitilise raja esiletõstmine Gantt&apos;i vaates</short>
+        <long>Kas tõsta esile Gantt&apos;i vaates olevat kriitilist rada või mitte.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Nabarmendu bide kritikoak Gantt ikuspegian</short>
+        <long>Zereginak Gantt ikuspegiko bide kritikoan zehatz nabarmendu edo ez.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>پر رنگ کردن مسیر بحرانی در نمای گانت</short>
+        <long>این که مسیر بحرانی در نمای گانت پررنگ شود یا نه.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Korosta kriittinen polku Gantt-näkymässä</short>
+        <long>Korostetaanko tehtävät kriittisen polun varrella Gantt-näkymässä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Mettre en évidence le chemin critique dans la vue du diagramme de Gantt</short>
+        <long>Indique s&apos;il faut mettre en évidence les tâches du chemin critique dans la vue du diagramme de Gantt.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Marcar o camiño crítico na vista do Gantt</short>
+        <long>Indique se se deben marcar as tarefas ao longo do camiño crítico na vista do Gantt.</long>
+      </locale>
+
+      <locale name="gu">
+        <short>Gantt દેખાવમાં જટિલ પાથ પ્રકાશિત કરો</short>
+        <long>શું Gantt દેખાવમાં જટિલ પાથ સાથે ક્રિયાઓ પ્રકાશિત કરવી છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>Kritikus útvonalak kiemelése a Gantt-nézetben</short>
+        <long>Kiemelje-e a kritikus útvonal mentén lévő feladatokat a Gantt-nézetben?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Gera áberandi úrslita slóð í Gantt sýn</short>
+        <long>Hvort gera eigi áberandi verkin í úrslita slóðinni í Gantt sýninni.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Evidenzia cammini critici nella vista diagramma di Gantt</short>
+        <long>Indica se evidenziare le attività nei cammini critici nel diagramma di Gantt.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>Gantt グラフでクリティカルなパスを強調表示する</short>
+        <long>Gantt グラフでクリティカルなパスに沿ってタスクを強調表示するかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Išskiria kritinį kelią Ganto diagramos peržiūroje</short>
+        <long>Nustato, ar Ganto diagramos peržiūroje yra išskiriamos kritinio kelio užduotys.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Izgaismot kritiskos ceļus Gantt skatā</short>
+        <long>Vai izcelt uzdevumus pie kritiska ceļa Gantt skatā.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>Gantt दृष्यांतील निर्णायक मार्ग ठळक करा</short>
+        <long>Gantt दृष्यांतील निर्णायक मार्गावरील कार्य ठळक करायचे.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Uthev kritiske baner i Gantt-visningen</short>
+        <long>Om oppgaver langs kritisk bane skal utheves i Gantt-visningen.</long>
+      </locale>
+
+      <locale name="ne">
+        <short>तर्कपूर्ण बाटोलाई जान्ट दृष्टिमा लक्षित गर्नुहोस्</short>
+        <long>जान्ट दृश्यमा असामान्य बाटो सहित कार्यहरू हाइलाइट गर्ने हो कि</long>
+      </locale>
+
+      <locale name="nl">
+        <short>Kritieke pad in Gantt-weergave oplichten</short>
+        <long>Of de taken langs het kritieke pad in de Gantt-weergave moeten worden opgelicht.</long>
+      </locale>
+
+      <locale name="or">
+        <short>Gantt ଦୃଶ୍ଯରେ ଜଟିଳ ପଥ ବିଶେଷଭାବରେ ଦେଖାନ୍ତୁ</short>
+        <long>Gantt ଦୃଶ୍ଯରେ ଜଟିଳ ପଥ ସାଥିରେ କାର୍ୟ୍ଯଗୁଡିକୁ ବିଶେଷଭାବରେ ଦେଖାଯିବ କି।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Wyróżnianie krytycznych ścieżek w widoku Gantta</short>
+        <long>Określa, czy wyróżniać zadania należące do krytycznej ścieżki w widoku Gantta.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Realçar o caminho crítico na vista do gráfico de Gantt</short>
+        <long>Se devem ser realçadas as tarefas ao longo do caminho crítico na vista de Gantt.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Evidențiază calea critică în vizualizarea Gantt</short>
+        <long>Dacă să se evidențieze sarcinile de pe calea critică în vizualizarea Gantt.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Подсветить критические пути в диаграмме Ганта</short>
+        <long>Выделять ли задачи на критическом пути в диаграмме Ганта.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Zvýrazniť kritickú cestu v Gantt diagrame</short>
+        <long>Či v Gantt diagrame zvýrazniť úlohy patriace do kritickej cesty.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Poudari ključno pot v pogledu Ganttovega diagrama.</short>
+        <long>Ali naj bodo poudarjene naloge ob ključnih poteh v pogledu Ganttovega diagrama.</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Истакни критичну путању у Гантовом прегледу</short>
+        <long>Да ли да истиче задатке дуж критичне путање у Гантовом прегледу.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Istakni kritičnu putanju u Gantovom pregledu</short>
+        <long>Da li da ističe zadatke duž kritične putanje u Gantovom pregledu.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Visa kritiska aktiviteter i ganttvyn</short>
+        <long>Huruvida aktiviteter längs den kritiska vägen ska visas i ganttvyn.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>நுனுக்கமான பாதையை காண்ட் காட்சியில் காட்டு</short>
+        <long>காண்ட் காட்சி வடிவில் வேலைகளுடன் சேர்த்து நெருக்கடிப் பாதையையும் உயர்த்திக்காட்ட முடியுமா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Gantt görünümünde kritik yolu vurgula</short>
+        
+      </locale>
+
+      <locale name="uk">
+        <short>Підсвічувати критичний шлях у графіку Гантта</short>
+        <long>Чи підсвічувати завдання вздовж критичного шляху у графіку Гантта.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>Tô sáng đường dẫn quan trọng trong khung xem Gantt</short>
+        <long>Có nên tô sáng các tác vụ theo đường dẫn quan trọng trong khung xem Gantt.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>在甘特图中高亮显示关键路径</short>
+        <long>是否在甘特图中高亮显示属于关键路径的任务。</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>於甘特圖中重點標示關鍵路徑 (Critical path)</short>
+        <long>是否於甘特圖中重點標示關鍵路徑 (Critical path) 上的工作</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>於甘特圖中重點標示關鍵路徑 (Critical path)</short>
+        <long>是否於甘特圖中重點標示關鍵路徑 (Critical path) 上的工作</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/planner/views/gantt_view/display_nonstandard_days</key>
+      <applyto>/apps/planner/views/gantt_view/display_nonstandard_days</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Display nonstandard days in Gantt view</short>
+        <long>Whether to display nonstandard days in the Gantt view.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>اعرض الأيام غير القياسية في مشهد جانت</short>
+        <long>ما إذا سيعرض الأيام غير القياسية في مشهد جانت أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>Gantt দৃশ্য়ত ননষ্টেণ্ডাৰ্ড দিনবোৰ প্ৰদৰ্শন কৰক</short>
+        <long>Gantt দৃশ্য়ত ননষ্টেণ্ডাৰ্ড দিন প্ৰদৰ্শন কৰিব লাগিবনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Amosa díes non standards na vista de Gantt</short>
+        <long>Indica si deben amosase los díes non standards na vista de Gantt.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Изобразяване на нестандартни дни в изгледа „Гантова диаграма“</short>
+        <long>Дали да се изобразяват нестандартните дни в изгледа „Гантова диаграма“.</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Mostra els dies no estàndards en la vista de Gannt</short>
+        <long>Si es mostren els dies no estàndards en la vista de Gannt.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Mostra els dies no estàndards en la vista de Gannt</short>
+        <long>Si es mostren els dies no estàndards en la vista de Gannt.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Zobrazovat nestandardní dny v Ganttově pohledu</short>
+        <long>Jestli v Ganttově pohledu zobrazovat nestandardní dny.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Vis særlige dage i Gantt-visning</short>
+        <long>Hvorvidt der skal vises særlige dage i Gantt-visningen.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Nicht-Standardtage in der Gantt-Ansicht anzeigen</short>
+        <long>Legt fest, ob Nicht-Standardtage in der Gantt-Ansicht angezeigt werden.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>གཱནཊི་མཐོང་སྣང་ནང་ ཚད་ལྡན་མ་ཡིན་པའི་ཉིནམ་ཚུ་བཀྲམ་སྟོན་འབད།</short>
+        <long>གཱནིཊི་མཐོང་སྣང་ནང་ ཚད་ལྡན་མ་ཡིན་པའི་ཉིནམ་ཚུ་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Προβολή μη τυποποιημένων ημερών στην προβολή του διαγράμματος Gannt</short>
+        <long>Αν θα γίνεται προβολή των μη τυποποιημένων ημερών στην προβολή Gantt.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Display nonstandard days in Gantt view</short>
+        <long>Whether to display nonstandard days in the Gantt view.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Muestra días no estándar en la vista de Gantt</short>
+        <long>Indica si se deben mostrar los días no estándar en la vista de Gantt.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Mittestandardsete päevade kuvamine Gantt&apos;i vaates</short>
+        <long>Kas tõsta esile mittestandardseid päevi Gantt&apos;i vaates.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Bistaratu egun ez-estandarrak Gantt ikuspegian</short>
+        <long>Egun ez-estandarrak Gantt ikuspegian bistaratu edo ez.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Näyttää epästandardit päivät Gantt-näkymässä</short>
+        <long>Näytetäänkö epästandardit päivät Gantt-näkymässä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Afficher les jours non standards dans la vue du diagramme de Gantt</short>
+        <long>Indique si les jours non-standards sont affichés dans la vue du diagramme de Gantt.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Amosar os días que non son estándar na vista Gantt</short>
+        <long>Indique se se deben amosar os días non estándar na vista do Gantt.</long>
+      </locale>
+
+      <locale name="gu">
+        <short>Gantt દેખાવમાં બિનપ્રમાણભૂત દિવસો દર્શાવો</short>
+        <long>શું Gantt દેખાવમાં બિનપ્રમાણભૂત દિવસો દર્શાવવા છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>Nem szabványos napok megjelenítése a Gantt nézetben</short>
+        <long>Megjelenjenek-e nem szabványos napok a Gantt-nézetben?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Sýna óstaðlaða daga í Gantt sýn</short>
+        <long>Hvort sýna eigi óstaðlaða daga í Gantt sýninni.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Visualizza giorni non standard nel diagramma di Gantt</short>
+        <long>Indica se evidenziare i giorni non standard nel diagramma di Gantt.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>Gantt グラフで通常日を表示する</short>
+        <long>Gantt グラフで通常日を表示するかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Rodyti nestandartines dienas Ganto diagramos peržiūroje</short>
+        <long>Nustato, ar rodomos nestandartinės dienos Ganto peržiūroje.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Rādīt nestandarta dienas Gantt skatā</short>
+        <long>Vai rādīt nestandarta dienas Gantt skatā.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>Gantt दृष्यात अमानक दिवस प्रदर्शित करा</short>
+        <long>Gantt दृष्यांत अमानक दिवस दाखवायचे.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Vis ikke-standard dager i Gantt visning</short>
+        <long>Om ikke-standard dager skal vises i Gantt-visningen.</long>
+      </locale>
+
+      <locale name="ne">
+        <short>जान्ट दृश्यमा मानक नबएका दिनहरू प्रदर्शन गर्नुहोस्</short>
+        <long>जान्ट दृश्यमा मानक नभएका दिनहरू प्रदर्शन गर्ने हो कि।</long>
+      </locale>
+
+      <locale name="nl">
+        <short>Niet-standaard dagen in Gantt-weergave tonen</short>
+        <long>Geeft aan of niet-standaard dagen de Gantt-weergave worden getoond.</long>
+      </locale>
+
+      <locale name="or">
+        <short>Gantt ଦୃଶ୍ଯରେ ମାନକହୀନ ଦିନଗୁଡିକୁ ପ୍ରଦର୍ଶନ କରନ୍ତୁ</short>
+        <long>Gantt ଦୃଶ୍ଯରେ ମାନକହୀନ ଦିନଗୁଡିକୁ ଦେଖାଯିବ କି।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Wyświetlanie niestandardowych dni w widoku Gantta</short>
+        <long>Określa, czy wyświetlać niestandardowe dni w widoku Gantta.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Mostrar dias não padronizados na visão do Gráfico de Gantt</short>
+        <long>Se devem ser mostrados os dias não padronizados na visão do Gráfico de Gantt.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Afișează zile nestandard în vizualizarea Gantt</short>
+        <long>Dacă să se afișeze zile nestandard în vizualizarea Gantt.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Показать нестандартные дни в диаграмме Ганта</short>
+        <long>Показывать ли нестандартные дни в диаграмме Ганта.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>V Gantt diagrame zobraziť neštandardné dni</short>
+        <long>Či v Gantt diagrame zobraziť neštandardné dni.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Pokaži neobičajne dni v pogledu Ganttovega diagrama.</short>
+        <long>Ali naj bodo prikazani neobičajni dnevi v pogledu Ganttovega diagrama.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Visa ickestandard dagar i Gantt-vy</short>
+        <long>Huruvida ickestandard dagar ska visas i Gantt-vyn.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>ஒழுங்கற்ற நாட்களை காண்ட் காட்சி வடிவில் தெறியப்படுத்து</short>
+        <long>ஒழுங்கற்ற நாட்களை காண்ட் காட்சி வடிவில் தெறியப்படுத்து முடியுமா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Gantt görünümünde standart dışı günleri görüntüle</short>
+        
+      </locale>
+
+      <locale name="vi">
+        <short>Hiển thị ngày không chuẩn trong ô xem Gantt</short>
+        <long>Có nên hiển thị ngày không chuẩn trong ô xem Gantt hay không.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>在甘特图中显示非标准日</short>
+        <long>是否允许在甘特图中显示非标准日。</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>於甘特圖中顯示非標準日子</short>
+        <long>是否已啟動於甘特圖中顯示非標準日子。</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>於甘特圖中顯示非標準日子</short>
+        <long>是否已啟動於甘特圖中顯示非標準日子。</long>
+      </locale>
+    </schema>
+ 
+    <schema>
+      <key>/schemas/apps/planner/views/task_view/highlight_critical_path</key>
+      <applyto>/apps/planner/views/task_view/highlight_critical_path</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Highlight critical path in Task view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Task view.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>أبرِز المسارات الحيوية في مشهد المهمّة</short>
+        <long>ما إذا سيُبرز المهام عبر المسار الحيوي في مشهد المهام أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>টাস্ক দৃশ্য়ত গুৰুত্বপূৰ্ণ পথবোৰ আলোকিত কৰক</short>
+        <long>টাস্ক ভিউত গুৰুত্বপূৰ্ণ পথৰ সৈতে টাস্কবোৰ আলোকিত কৰিব লাগিবনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Resalta el camín crítica na vista de xeres</short>
+        <long>Indica si tienen de resaltase les xeres a lo llargo del camín críticu na vista de tarees.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Осветяване на критично поле в изгледа „Задачи“</short>
+        <long>Дали да се осветяват задачите заедно с критичното поле в „Задачи“.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>কর্ম অনুযায়ী প্রদর্শন ক্ষেত্রে গুরুত্বপূর্ণ ধারা উজ্জ্বল করে প্রদর্শন করা হবে</short>
+        <long>কাজ অনুযায়ী প্রদর্শন ক্ষেত্রের মধ্যে গুরুত্বপূর্ণ ধারায় উপস্থিত কাজগুলি উজ্জ্বল করা হবে কি না।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Ressalta el camí crític en la vista de tasques</short>
+        <long>Si es ressalten les tasques junt amb els camins crítics a la vista de tasques.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Ressalta el camí crític en la vista de tasques</short>
+        <long>Si es ressalten les tasques junt amb els camins crítics a la vista de tasques.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Zvýraznit kritickou cestu v pohledu na úlohy</short>
+        <long>Jestli v pohledu na úlohy zvýraznit úlohy na kritické cestě.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Fremhæv den kritiske vej i aktivitetsvisning</short>
+        <long>Hvorvidt aktiviteterne langs den kritiske vej skal fremhæves i aktivitetsvisningen.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Kritischen Pfad in der Aufgabenansicht hervorheben</short>
+        <long>Legt fest, ob Aufgaben entlang des kritischen Pfades in der Aufgabenansicht hervorgehoben werden.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>ལས་ཀའི་མཐོང་སྣང་ནང་ཚབས་ཆེན་འགྲུལ་ལམ་ གཙོ་དམིགས་འབད།</short>
+        <long>ལས་ཀའི་མཐོང་སྣང་ནང་ ཚབས་ཆེན་འགྲུལ་ལམ་བདའ་སྟེ་ལས་ཀ་ཚུ་ གཙོ་དམིགས་འབད་ནི་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Επισήμανση σημαντικής διαδρομής στην προβολή εργασίας</short>
+        <long>Αν θα γίνεται επισήμανση των εργασιών μαζί με τη σημαντική διαδρομή στην προβολή εργασίας.</long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>Highlight critical path in Task view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Task view.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Highlight critical path in Task view</short>
+        <long>Whether to highlight the tasks along the cricital path in the Task view.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Resalta la ruta crítica en la vista de tareas</short>
+        <long>Indica si se debe resaltar las tareas a lo largo de la ruta crítica en la vista de tareas.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Kriitilise raja esiletõstmine ülesannete vaates</short>
+        <long>Kas tõsta esile ülesannete vaates olevat kriitilist rada või mitte.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Nabarmendu bide kritikoak zereginen ikuspegian</short>
+        <long>Zereginak zereginen ikuspegiko bide kritikoan zehar nabarmendu edo ez.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>پر رنگ کردن مسیر بحرانی در نمای تکلیف</short>
+        <long>این که میسر بحرانی در نمای تکلیف پررنگ شود یا نه.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Korosta kriittinen polku tehtävänäkymässä</short>
+        <long>Korostetaanko tehtävät kriittisen polun varrella tehtävänäkymässä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Mettre en évidence le chemin critique dans la vue des tâches</short>
+        <long>Indique s&apos;il faut mettre en évidence les tâches du chemin critique dans la vue des tâches.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Marcar o camiño crítico na vista de Tarefa</short>
+        <long>Indique se se debe marcar as tarefas ao longo do camiño crítico na vista da Tarefa.</long>
+      </locale>
+
+      <locale name="gu">
+        <short>Task દેખાવમાં જટિલ પાથ પ્રકાશિત કરો</short>
+        <long>શું ક્રિયા દેખાવમાં જટિલ પાથ સાથે ક્રિયાઓ પ્રકાશિત કરવી છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>Kritikus útvonalak kiemelése a Feladatok nézetben</short>
+        <long>Kiemelje-e a kritikus útvonal mentén lévő feladatokat a Feladatok nézetben?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Gera áberandi úrslita slóð í verka sýn</short>
+        <long>Hvort gera eigi áberandi verkin í úrslita slóðinni í verka sýninni.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Evidenzia cammini critici nella vista Attività</short>
+        <long>Indica se evidenziare le attività nei cammini critici nella vista Attività</long>
+      </locale>
+
+      <locale name="ja">
+        <short>タスク表示でクリティカルなパスを強調表示する</short>
+        <long>タスク表示でクリティカルなパスに沿ってタスクを強調表示するかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Išskiria kritinį kelią užduoties peržiūroje</short>
+        <long>Nustato, ar užduočių peržiūroje yra išskiriamos kritinio kelio užduotys.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Izgaismot kritiskos ceļus uzdevuma skatā</short>
+        <long>Vai izcelt uzdevumus pie kritiska ceļa uzdevuma skatā.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>कार्य दृष्यांतील निर्णायक मार्ग ठळक करा</short>
+        <long>कार्य दृष्यांतील निर्णायक मार्गावरील कार्य ठळक करायचे.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Uthev kritiske oppgaver i oppgavevisningen</short>
+        <long>Om oppgaver langs kritisk bane skal utheves i oppgavevisningen.</long>
+      </locale>
+
+      <locale name="ne">
+        <short>तर्कपूर्ण बाटोलाई कार्य दृश्यमा हाइलाइट गर्नुहोस्</short>
+        <long>कार्य दृश्यमा असामान्य बाटो सहित कार्यहरू हाइलाइट गर्ने हो कि</long>
+      </locale>
+
+      <locale name="nl">
+        <short>Kritieke pad in taakweergave oplichten</short>
+        <long>Of de taken langs het kritieke pad in de taakweergave moeten worden opgelicht.</long>
+      </locale>
+
+      <locale name="or">
+        <short>କାର୍ୟ୍ଯ ଦୃଶ୍ଯରେ ଜଟିଳ ପଥ ବିଶେଷଭାବରେ ଦେଖାନ୍ତୁ</short>
+        <long>କାର୍ଯ୍ୟ ଦୃଶ୍ଯରେ ଜଟିଳ ପଥ ସାଥିରେ କାର୍ଯ୍ୟଗୁଡିକୁ ବିଶେଷଭାବରେ ଦେଖାଯିବ କି ।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Wyróżnianie krytycznych ścieżek w widoku zadań</short>
+        <long>Określa, czy wyróżniać zadania należące do ścieżki krytycznej w widoku zadań.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Realçar o caminho crítico na vista de Tarefas.</short>
+        <long>Se devem ser realçadas as tarefas ao longo do caminho crítico na vista de Tarefas.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Evidențiază calea critică în vizualizarea sarcinilor</short>
+        <long>Dacă să se evidențieze sarcinile de pe calea critică în vizualizarea sarcinilor.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Подсветить критические пути во вкладке Задачи</short>
+        <long>Выделять ли задачи на критическом пути при отображении задач.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Zvýrazniť kritickú cestu v zozname úloh</short>
+        <long>Či v zozname úloh zvýrazniť úlohy patriace do kritickej cesty.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Poudari ključno pot v pogledu nalog</short>
+        <long>Ali naj bodo poudarjene naloge ob ključnih poteh v pogledu nalog.</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Истакни критичну путању у прегледу задатака</short>
+        <long>Да ли да истиче задатке дуж критичне путање у прегледу задатака.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Istakni kritičnu putanju u pregledu zadataka</short>
+        <long>Da li da ističe zadatke duž kritične putanje u pregledu zadataka.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Visa kritiska aktiviteter i aktivitetsvyn</short>
+        <long>Huruvida aktiviteter längs den kritiska vägen ska visas i aktivitetsvyn.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>நுனுக்கமான பாதையை செயல் காட்சியில் காட்டு</short>
+        <long>செயல் காட்சி முறையில் வேலைகளுடன் சேர்த்து நெருக்கடிப் பாதையையும் உயர்த்திக்காட்ட முடியுமா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Görev görünümünde kritik yolu vurgula</short>
+        
+      </locale>
+
+      <locale name="uk">
+        <short>Підсвічувати критичний шлях при перегляді завдань</short>
+        <long>Чи підсвічувати завдання вздовж критичного шляху у графіку завдань.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>Tô sáng đường dẫn quan trọng trong khung xem Tác vụ</short>
+        <long>Có nên tô sáng các tác vụ theo đường dẫn quan trọng trong khung xem Công việc.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>在任务视图中高亮显示关键路径</short>
+        <long>是否在任务视图中高亮显示属于关键路径的任务。</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>於工作檢視中重點標示關鍵路徑 (Critical path)</short>
+        <long>是否於工作檢視中重點標示關鍵路徑 (Critical path) 上的工作</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>於工作檢視中重點標示關鍵路徑 (Critical path)</short>
+        <long>是否於工作檢視中重點標示關鍵路徑 (Critical path) 上的工作</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/planner/views/gantt_view/print_enabled</key>
+      <applyto>/apps/planner/views/gantt_view/print_enabled</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Print the Gantt view</short>
+        <long>Whether printing of the Gantt view is enabled.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>اطبع مشهد جانت</short>
+        <long>ما إذا كانت طباعة مشهد جانت مفعلة أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>Gantt দৃশ্য়টো মুদ্ৰণ কৰক</short>
+        <long>Gantt দৃশ্য়ৰ মুদ্ৰণ সক্ষম কৰা আছেনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Imprentar la vista de Gantt</short>
+        <long>Indica si la imprentación de la vista de Gantt ta activada.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Разпечатване на Гантовата диаграма</short>
+        <long>Дали е активирано печатане на „Гантова диаграма“.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>Gantt প্রদর্শন প্রিন্ট করা হবে</short>
+        <long>Gantt প্রদর্শন ক্ষেত্রের প্রিন্ট ব্যবস্থা সক্রিয় করা হয়েছে কি না।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Imprimeix la vista de Gantt</short>
+        <long>Si la impressió de la vista de Gantt està habilitada.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Imprimeix la vista de Gantt</short>
+        <long>Si la impressió de la vista de Gantt està habilitada.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Tisknout Ganttův pohled</short>
+        <long>Jestli je povolen tisk Ganttova pohledu.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Udskriv Gantt-visningen</short>
+        <long>Hvorvidt udskrivning af Gantt-visningen er aktiveret.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Gantt-Ansicht drucken</short>
+        <long>Legt fest, ob das Drucken der Gantt-Ansicht aktiviert ist.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>གཱནཊི་མཐོང་སྣང་ དཔར་བསྐྲུན་འབད།</short>
+        <long>གཱནཊི་མཐོང་སྣང་གི་དཔར་བསྐྲུན་ ལྕོགས་ཅན་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Εκτύπωση της προβολής Gantt </short>
+        <long>Αν θα είναι ενεργοποιημένη η εκτύπωση του Gantt </long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>Print the Gantt view</short>
+        <long>Whether printing of the Gantt view is enabled.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Print the Gantt view</short>
+        <long>Whether printing of the Gantt view is enabled.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Imprimir la vista de Gantt</short>
+        <long>Indica si la impresión de la vista de Gantt está activada.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Gantt&apos;i vaate printimine</short>
+        <long>Kas Gantt&apos;i vaate printimine on lubatud.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Inprimatu Gantt-en ikuspegia</short>
+        <long>Gantt ikuspegia inprimatzea gaituta dagoen edo ez.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>چاپ نمای گانت</short>
+        <long>این که چاپ نمای گانت فعال شده باشد یا نه.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Tulosta Gantt-näkymä</short>
+        <long>Onko Gantt-näkymä tulostus käytössä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Imprimer la vue du diagramme de Gantt</short>
+        <long>Indique si l&apos;impression de la vue du diagramme de Gannt est activée.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Imprimir a vista do Gantt</short>
+        <long>Indique se está activada a impresión da vista do Gantt.</long>
+      </locale>
+
+      <locale name="gu">
+        <short>Gantt દેખાવ છાપો</short>
+        <long>શું Gantt દેખાવનું છાપન સક્રિય કરેલ છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>A Gantt-nézet nyomtatása</short>
+        <long>A Gantt-nézet nyomtatása engedélyezve van-e?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Prenta Gantt sýnina</short>
+        <long>Hvort prentun á Gantt sýn sé virk.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Stampa diagramma di Gantt</short>
+        <long>Indica se la stampa del diagramma di Gantt è abilitata.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>Gantt グラフを印刷する</short>
+        <long>Gantt グラフを印刷可能にするかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Spausdinti Ganto peržiūrą</short>
+        <long>Nustato, ar galima spausdinti Ganto peržiūrą.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Drukāt Gantt skatu</short>
+        <long>Vai Gantt skata drukāšana ir aktivizēta.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>Gantt दृष्य छपाई करा</short>
+        <long>Gantt दृष्याचे छपाई सक्षम केलेले आहे का.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Skriv ut Gantt-visningen</short>
+        <long>Om utskrift av Gantt-visningen er slått på.</long>
+      </locale>
+
+      <locale name="ne">
+        <short>जान्ट दृश्यलाई मुद्रण गर्नुहोस्</short>
+        <long>या जान्ट दृष्टि मुद्रणमा सक्रिय पारिएको भए</long>
+      </locale>
+
+      <locale name="nl">
+        <short>Gantt-weergave afdrukken</short>
+        <long>Of de Gantt-weergave kan worden afgedrukt.</long>
+      </locale>
+
+      <locale name="or">
+        <short>Gantt ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରନ୍ତୁ</short>
+        <long>Gantt ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରିବାରେ ସକ୍ଷମ ହୋଇଛି କି।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Drukowanie widoku Gantta</short>
+        <long>Określa, czy drukowanie widoku Gantta jest włączone.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Imprime a vista do gráfico de Gantt</short>
+        <long>Se a impressão da vista do gráfico de Gantt está habilitada.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Tipărește vizualizarea Gantt</short>
+        <long>Dacă tipărirea vizualizării Gantt este activată.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Распечатать диаграмму Ганта</short>
+        <long>Возможна ли печать диаграммы Ганта.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Vytlačiť Gantt diagram</short>
+        <long>Či je povolená tlač Gantt diagramu.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Natisni pogled Ganttovega diagrama</short>
+        <long>Ali je omogočeno tiskanje pogleda Ganttovega diagrama.</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Штампај Гантов преглед</short>
+        <long>Да ли је укључено штампање Гантовог прегледа.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Štampaj Gantov pregled</short>
+        <long>Da li je uključeno štampanje Gantovog pregleda.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Skriv ut ganttvyn</short>
+        <long>Huruvida utskrift av ganttvyn är aktiverad.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>காண்ட் காட்சியை அச்சிடு</short>
+        <long>காண்ட் காட்சியை அச்சடிக்க சாத்தியமுள்ளதா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Gantt görünümünü yazdır</short>
+        <long>Gantt görünümünün yazdırılmasının etkinleştirilip etkinleştirilmediği.</long>
+      </locale>
+
+      <locale name="uk">
+        <short>Друкувати графіку Гантта</short>
+        <long>Чи друкувати графік Гантта.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>In khung xem Gantt</short>
+        <long>Có nên hiệu lực in khung xem Gantt hay không.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>打印甘特图</short>
+        <long>是否打印甘特图</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>打印甘特圖</short>
+        <long>是否已啟動打印甘特圖。</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>列印甘特圖</short>
+        <long>是否已啟動列印甘特圖。</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/planner/views/task_view/print_enabled</key>
+      <applyto>/apps/planner/views/task_view/print_enabled</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Print the Task view</short>
+        <long>Whether printing of the Task view is enabled.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>اطبع مشهد المهام</short>
+        <long>ما إذا كانت طباعة مشهد المهام مفعلة أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>টাস্ক দৃশ্য়টো মুদ্ৰণ কৰক</short>
+        <long>টাস্ক দৃশ্য়ৰ মুদ্ৰণ সক্ষম কৰা আছেনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Imprentar la vista de xeres</short>
+        <long>Indica si la imprentación de la vista de xeres ta activada.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Разпечатване на прегледа на задачите</short>
+        <long>Дали е активирано печатане на „Задачи“.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>কর্ম অনুযায়ী প্রদর্শন প্রিন্ট করা হবে</short>
+        <long>কর্ম অনুয়ায়ী প্রদর্শন ক্ষেত্রের প্রিন্ট ব্যবস্থা সক্রিয় করা হয়েছে কি না।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Imprimeix la vista de tasques</short>
+        <long>Si la impressió de la vista de tasques dels recursos està habilitada.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Imprimeix la vista de tasques</short>
+        <long>Si la impressió de la vista de tasques dels recursos està habilitada.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Tisknout pohled na úlohy</short>
+        <long>Jestli je povolen tisk pohledu na úlohy.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Udskriv aktivitetsvisningen</short>
+        <long>Hvorvidt udskrivning af aktivitetsvisningen er aktiveret.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Aufgabenansicht drucken</short>
+        <long>Legt fest, ob das Drucken der Aufgabenansicht aktiviert ist.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>ལས་ཀའི་མཐོང་སྣང་ དཔར་བསྐྲུན་འབད།</short>
+        <long>ལས་ཀ་མཐོང་སྣང་གི་དཔར་བསྐྲུན་ ལྕོགས་ཅན་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Εκτύπωση της προβολής εργασίας</short>
+        <long>Αν θα είναι ενεργοποιημένη η εκτύπωση της προβολής εργασιών.</long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>Print the Task view</short>
+        <long>Whether printing of the Task view is enabled.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Print the Task view</short>
+        <long>Whether printing of the Task view is enabled.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Imprimir la vista de tareas</short>
+        <long>Indica si la impresión de la vista de tareas está activada.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Ülesannete vaate printimine</short>
+        <long>Kas ülesannete vaate printimine on lubatud.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Inprimatu zereginen ikuspegia</short>
+        <long>Zereginen ikuspegia inprimatzea gaituta dagoen edo ez.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>چاپ نمای تکلیف</short>
+        <long>این که چاپ نمای تکلیف فعال شده باشد یا نه.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Tulosta tehtävänäkymä</short>
+        <long>Onko tehtävänäkymän tulostus käytössä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Imprimer la vue des tâches</short>
+        <long>Indique si l&apos;impression de la vue des tâches est activée.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Imprimir a vista da Tarefa</short>
+        <long>Indique se está activada a impresión da vista da tarefa</long>
+      </locale>
+
+      <locale name="gu">
+        <short>ક્રિયા દેખાવ છાપો</short>
+        <long>શું ક્રિયા દેખાવનું છાપન સક્રિય કરેલ છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>A Feladatok nézet nyomtatása</short>
+        <long>A Feladatok nézet nyomtatása engedélyezve van-e?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Prenta verkefnasýnina</short>
+        <long>Hvort prentun á verkefnasýninni sé virk.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Stampa Attività</short>
+        <long>Indica se la stampa delle Attività è abilitata.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>タスク表示を印刷する</short>
+        <long>タスク表示を印刷可能にするかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Spausdinti užduočių peržiūrą</short>
+        <long>Nustato, ar įjungtas užduočių peržiūros spausdinimas.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Drukāt uzdevuma skatu</short>
+        <long>Vai uzdevuma skata drukāšana ir aktivizēta.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>कार्य दृष्य छपाई करा</short>
+        <long>कार्य दृष्याचे छपाई सक्षम केलेले आहे का.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Skriv ut oppgavevisningen</short>
+        <long>Om utskrift av oppgavevisningen er slått på.</long>
+      </locale>
+
+      <locale name="nds">
+        <short>Opgavansicht drucken</short>
+        
+      </locale>
+
+      <locale name="ne">
+        <short>कार्य दृश्यलाई मुद्रण गर्नुहोस्</short>
+        <long>या कार्य कार्य दृश्यको मुद्रण सक्रिय पारिएको भए</long>
+      </locale>
+
+      <locale name="nl">
+        <short>De taakweergave afdrukken</short>
+        <long>Of de taakweergave kan worden afgedrukt.</long>
+      </locale>
+
+      <locale name="or">
+        <short>କାର୍ୟ୍ଯ ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରନ୍ତୁ</short>
+        <long>କାର୍ୟ୍ଯ ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରିବା ସକ୍ରିୟ ହୋଇଛି କି।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Drukowanie widoku zadań</short>
+        <long>Określa, czy drukowanie widoku zadań jest włączone.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Imprime a vista de Tarefas</short>
+        <long>Se a impressão da vista de Tarefas está habilitada.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Tipărește vizualizarea sarcinilor</short>
+        <long>Dacă tipărirea vizualizării sarcinilor este activată.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Распечатать вид задач</short>
+        <long>Возможна ли печать вида задач.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Vytlačiť zoznam úloh</short>
+        <long>Či je povolená tlať zoznamu úloh.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Natisni pogled nalog</short>
+        <long>Ali je omogočeno tiskanje pogleda nalog.</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Штампај преглед задатака</short>
+        <long>Да ли је укључено штампање прегледа задатака.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Štampaj pregled zadataka</short>
+        <long>Da li je uključeno štampanje pregleda zadataka.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Skriv ut aktivitetsvyn</short>
+        <long>Huruvida utskrift av aktivitetsvyn är aktiverad.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>வேலை காட்சியை அச்சிடு</short>
+        <long>வேலை காட்சியை அச்சடிக்க சாத்தியமுள்ளதா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Görev görünümünü yazdır</short>
+        <long>Görev görünümünün yazdırılmasının etkinleştirilip etkinleştirilmediği.</long>
+      </locale>
+
+      <locale name="uk">
+        <short>Друкувати графік завдань</short>
+        <long>Чи друкувати графік завдань.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>In khung xem Tác vụ</short>
+        <long>Có nên hiệu lực in khung xem Tác vụ hay không.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>打印任务视图</short>
+        <long>是否打印任务视图。</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>打印工作檢視</short>
+        <long>是否已啟動打印工作檢視。</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>列印工作檢視</short>
+        <long>是否已啟動列印工作檢視。</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/planner/views/resource_view/print_enabled</key>
+      <applyto>/apps/planner/views/resource_view/print_enabled</applyto>
+      <owner>planner</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Print the Resource view</short>
+        <long>Whether printing of the Resource view is enabled.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>اطبع مشهد الموارد</short>
+        <long>ما إذا كانت طباعة مشهد الموارد مفعلة أم لا.</long>
+      </locale>
+
+      <locale name="as">
+        <short>ৰিছোৰ্চ দৃশ্য়টো মুদ্ৰণ কৰক</short>
+        <long>ৰিছোৰ্চ দৃশ্য়ৰ মুদ্ৰণ সক্ষম কৰা আছেনে.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>Imprentar la vista de recursos</short>
+        <long>Indica si la imprentación de la vista de recursos ta activada.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Разпечатване на прегледа на ресурсите</short>
+        <long>Дали е активирано печатане на „Ресурси“.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>রিসোর্স অনুযায়ী প্রদর্শন প্রিন্ট করা হবে</short>
+        <long>রিসোর্স প্রদর্শন ক্ষেত্রের প্রিন্ট ব্যবস্থা সক্রিয় করা হয়েছে কি না।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>Imprimeix la vista de recursos</short>
+        <long>Si la impressió de la vista de recursos està habilitada.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>Imprimeix la vista de recursos</short>
+        <long>Si la impressió de la vista de recursos està habilitada.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Tisknout pohled na zdroje</short>
+        <long>Jestli je povolen tisk pohledu na zdroje.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Udskriv ressourcevisningen</short>
+        <long>Hvorvidt udskrivning af ressource-visningen er aktiveret eller.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Ressourcen-Ansicht drucken</short>
+        <long>Legt fest, ob das Drucken der Ressourcen-Ansicht aktiviert ist.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>འབྱུང་ཁུངས་མཐོང་སྣང་ དཔར་བསྐྲུན་འབད།</short>
+        <long>འབྱུང་ཁུངས་མཐོང་སྣང་གི་དཔར་བསྐྲུན་ ལྕོགས་ཅན་ཨིན་ན་མེན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Εκτύπωση της προβολής πηγών</short>
+        <long>Αν θα είναι ενεργοποιημένη η εκτύπωση της προβολή πόρων</long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>Print the Resource view</short>
+        <long>Whether printing of the Resource view is enabled.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>Print the Resource view</short>
+        <long>Whether printing of the Resource view is enabled.</long>
+      </locale>
+
+      <locale name="es">
+        <short>Imprimir la vista de recursos</short>
+        <long>Indica si la impresión de la vista de recursos está activada.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Vahendite vaate printimine</short>
+        <long>Kas vahendite vaate printimine on lubatud.</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Inprimatu baliabideen ikuspegia</short>
+        <long>Baliabideen ikuspegia inprimatzea gaituta dagoen edo ez.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>چاپ نمای منبع</short>
+        <long>این که چاپ نمای منبع فعال شده باشد یا نه.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Tulosta resurssinäkymä</short>
+        <long>Onko resurssinäkymän tulostus käytössä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Imprimer la vue des ressources</short>
+        <long>Indique si l&apos;impression de la vue des ressources est activée.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>Imprimir a vista do Recurso</short>
+        <long>Indique se está activada a impresión da vista do recurso.</long>
+      </locale>
+
+      <locale name="gu">
+        <short>સ્રોત દેખાવ છાપો</short>
+        <long>શું સ્રોત દેખાવનું છાપન સક્રિય કરેલ છે.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>Az Erőforrások nézet nyomtatása</short>
+        <long>Az Erőforrások nézet nyomtatása engedélyezve van-e?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Prenta tilfangasýnina</short>
+        <long>Hvort prentun á tilfangasýninni sé virk.</long>
+      </locale>
+
+      <locale name="it">
+        <short>Stampa Risorse</short>
+        <long>Indica se la stampa delle Risorse è abilitata.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>リソース表示を印刷する</short>
+        <long>リソース表示を印刷可能にするかどうかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Spausdinti resursų peržiūrą</short>
+        <long>Nustato, ar įjungtas resursų peržiūros spausdinimas</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Drukāt resursa skatu</short>
+        <long>Vai resursa skata drukāšana ir aktivizēta.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>संसाधन दृष्य छपाई करा</short>
+        <long>संसाधन दृष्याचे छपाई सक्षम केलेले आहे का.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Skriv ut ressursvisningen</short>
+        <long>Om utskrift av ressursvisningen er slått på.</long>
+      </locale>
+
+      <locale name="ne">
+        <short>स्रोत दृष्टिलाई मुद्रण गर्नुहोस्</short>
+        <long>या स्रोत स्रोत दृश्यको मुद्रण सक्रिय पारिएको भए</long>
+      </locale>
+
+      <locale name="nl">
+        <short>De hulpbronnenweergave afdrukken</short>
+        <long>Of de hulpbronnenweergave kan worden afgedrukt.</long>
+      </locale>
+
+      <locale name="or">
+        <short>ସମ୍ବଳ ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରନ୍ତୁ</short>
+        <long>ସମ୍ବଳ ଦୃଶ୍ଯ ମୁଦ୍ରଣ କରିବାରେ ସକ୍ଷମ ହୋଇଛି କି।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Drukowanie widoku zasobów</short>
+        <long>Określa, czy drukowanie widoku zasobów jest włączone.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>Imprime a vista de Recursos</short>
+        <long>Se a impressão da vista dos Recursos está habilitada.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Tipărește vizualizarea resurselor</short>
+        <long>Dacă tipărirea vizualizării resurselor este activată.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Распечатать вид ресурсов</short>
+        <long>Возможна ли печать вида ресурсов.</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Vytlačiť zoznam zdrojov</short>
+        <long>Či je povolená tlač zoznamu zdrojov.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Natisni pogled virov</short>
+        <long>Ali je omogočeno tiskanje pogleda virov.</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Штампај преглед ресурса</short>
+        <long>Да ли је укључено штампање прегледа ресурса.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Štampaj pregled resursa</short>
+        <long>Da li je uključeno štampanje pregleda resursa.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Skriv ut resursvyn</short>
+        <long>Huruvida utskrift av resursvyn är aktiverad.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>உபாயக்காட்சியை அச்சிடு</short>
+        <long>உபாயக் காட்சியை அச்சடிக்க சாத்தியமுள்ளதா</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Kaynak görünümünü yazdır</short>
+        <long>Kaynak görünümünün yazdırılmasının etkinleştirilip etkinleştirilmediği.</long>
+      </locale>
+
+      <locale name="uk">
+        <short>Друкувати графік ресурсів</short>
+        <long>Чи друкувати графік ресурсів.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>In khung xem Tài nguyên</short>
+        <long>Có nên hiệu lực in khung xem Tài nguyên hay không.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>打印资源视图</short>
+        <long>是否打印资源视图</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>打印資源檢視</short>
+        <long>是否已啟動打印資源檢視。</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>列印資源檢視</short>
+        <long>是否已啟動列印資源檢視。</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/planner/ui/active_view</key>
+      <applyto>/apps/planner/ui/active_view</applyto>
+      <owner>planner</owner>
+      <type>string</type>
+      <default>gantt_view</default>
+      <locale name="C">
+        <short>The active view</short>
+        <long>Which view to display in the user interface.</long>
+      </locale>
+
+      <locale name="ar">
+        <short>المشهد النشط</short>
+        <long>أي مشهد سيعرض في واجهة المستخدم.</long>
+      </locale>
+
+      <locale name="as">
+        <short>সক্ৰিয দৃশ্য়টো</short>
+        <long>ব্য়ৱহাৰকৰ্তাৰ ইন্টাৰফেচত কোনটো দৃশ্য় প্ৰদৰ্শন কৰিব লাগিব.</long>
+      </locale>
+
+      <locale name="ast">
+        <short>La vista activa</short>
+        <long>Qué vista amosar na interfaz d&apos;usuariu.</long>
+      </locale>
+
+      <locale name="bg">
+        <short>Активираният изглед</short>
+        <long>Кой изглед да се показва в потребителския интерфейс.</long>
+      </locale>
+
+      <locale name="bn_IN">
+        <short>সক্রিয় প্রদর্শন ক্ষেত্র</short>
+        <long>ইউজার ইন্টারফেসের মধ্যে কোন প্রদর্শন ক্ষেত্র প্রস্তুত করা হবে।</long>
+      </locale>
+
+      <locale name="ca">
+        <short>La vista activa</short>
+        <long>La vista que s&apos;ha de mostrar a la interfície d&apos;usuari.</long>
+      </locale>
+
+      <locale name="ca@valencia">
+        <short>La vista activa</short>
+        <long>La vista que s&apos;ha de mostrar a la interfície d&apos;usuari.</long>
+      </locale>
+
+      <locale name="cs">
+        <short>Aktivní pohled</short>
+        <long>Který pohled zobrazovat v uživatelském rozhraní.</long>
+      </locale>
+
+      <locale name="da">
+        <short>Den aktuelle visning</short>
+        <long>Hvilken visning der skal benyttes i brugergrænsefladen.</long>
+      </locale>
+
+      <locale name="de">
+        <short>Die aktive Ansicht</short>
+        <long>Die aktive Ansicht der Benutzerschnittstelle.</long>
+      </locale>
+
+      <locale name="dz">
+        <short>ཤུགས་ལྡན་མཐོང་སྣང་།</short>
+        <long>ལག་ལེན་པའི་ངོས་འདྲ་བ་ནང་ མཐོང་སྣང་ག་ཅི་འདི་བཀྲམ་སྟོན་འབད་ནི་ཨིན་ན།</long>
+      </locale>
+
+      <locale name="el">
+        <short>Η ενεργή προβολή</short>
+        <long>Ποια προβολή θα εμφανίζεται στο περιβάλλον χρήσης.</long>
+      </locale>
+
+      <locale name="en_CA">
+        <short>The active view</short>
+        <long>Which view to display in the user interface.</long>
+      </locale>
+
+      <locale name="en_GB">
+        <short>The active view</short>
+        <long>Which view to display in the user interface.</long>
+      </locale>
+
+      <locale name="es">
+        <short>La vista activa</short>
+        <long>Qué vista mostrar en la interfaz de usuario.</long>
+      </locale>
+
+      <locale name="et">
+        <short>Aktiivne vaade</short>
+        <long>Mis vaadet kuvatakse kasutajaliideses</long>
+      </locale>
+
+      <locale name="eu">
+        <short>Ikuspegi aktiboa</short>
+        <long>Zein ikuspegi bistaratu erabiltzailearen interfazean.</long>
+      </locale>
+
+      <locale name="fa">
+        <short>نمای فعال</short>
+        <long>کدام نما در رابط کاربر نمایش داده شود.</long>
+      </locale>
+
+      <locale name="fi">
+        <short>Aktiivinen näkymä</short>
+        <long>Mikä näkymä näytetään käyttöliittymässä.</long>
+      </locale>
+
+      <locale name="fr">
+        <short>Vue active</short>
+        <long>La vue qui doit être affichée dans l&apos;interface utilisateur.</long>
+      </locale>
+
+      <locale name="gl">
+        <short>A vista activa</short>
+        <long>Indique que vista se debe amosar na interface de usuario</long>
+      </locale>
+
+      <locale name="gu">
+        <short>સક્રિય દેખાવ</short>
+        <long>વપરાશકર્તા ઈન્ટરફેસમાં કયો દેખાવ દર્શાવવો.</long>
+      </locale>
+
+      <locale name="hu">
+        <short>Az aktív nézet</short>
+        <long>Mely nézet jelenjen meg a felhasználói felületen?</long>
+      </locale>
+
+      <locale name="is">
+        <short>Virka sýnin</short>
+        <long>Hvora sýnina á að sýna í notandaviðmótinu</long>
+      </locale>
+
+      <locale name="it">
+        <short>Vista attiva</short>
+        <long>Quale vista abilitare nell&apos;interfaccia.</long>
+      </locale>
+
+      <locale name="ja">
+        <short>アクティブなビュー</short>
+        <long>ユーザ・インタフェースでどのビューを表示するかです。</long>
+      </locale>
+
+      <locale name="lt">
+        <short>Aktyvi peržiūra</short>
+        <long>Kokia peržiūrą rodyti vartotojo sąsajoje.</long>
+      </locale>
+
+      <locale name="lv">
+        <short>Aktīvais skats</short>
+        <long>Kuru skatu rādīt šajā saskarnē.</long>
+      </locale>
+
+      <locale name="mr">
+        <short>सक्रिय दृष्य</short>
+        <long>वापरकर्ता संवाद मध्ये कोणते दृष्य दाखवायचे.</long>
+      </locale>
+
+      <locale name="nb">
+        <short>Den aktive visningen</short>
+        <long>Hvilken visning som skal vises i brukergrensesnittet.</long>
+      </locale>
+
+      <locale name="nds">
+        <short>De aktive Ansicht</short>
+        
+      </locale>
+
+      <locale name="ne">
+        <short>सक्रिय दृश्य</short>
+        <long>कुन दृश्य प्रयोगकर्ता इन्टरफेसमा देखाउने।</long>
+      </locale>
+
+      <locale name="nl">
+        <short>De actieve weergave</short>
+        <long>Welke weergave moet verschijnen in de gebruikersinterface.</long>
+      </locale>
+
+      <locale name="oc">
+        <short>La visualizacion activa</short>
+        
+      </locale>
+
+      <locale name="or">
+        <short>ସକ୍ରିୟ ଦୃଶ୍ଯ</short>
+        <long>ଉପଯୋଗକର୍ତ୍ତା ଅନ୍ତରାପୃଷ୍ଠରେ କେଉଁ ଦୃଶ୍ଯ ଦେଖାଯିବ।</long>
+      </locale>
+
+      <locale name="pl">
+        <short>Aktywny widok</short>
+        <long>Który widok wyświetlać w interfejsie użytkownika.</long>
+      </locale>
+
+      <locale name="pt_BR">
+        <short>A vista ativa</short>
+        <long>Qual vista mostrar na interface do usuário.</long>
+      </locale>
+
+      <locale name="ro">
+        <short>Vizualizarea activă</short>
+        <long>Ce vizualizare să fie afișată în interfața utilizator.</long>
+      </locale>
+
+      <locale name="ru">
+        <short>Активный вид</short>
+        <long>Какие возможности показывать в пользовательском интерфейсе</long>
+      </locale>
+
+      <locale name="sk">
+        <short>Aktívny pohľad</short>
+        <long>Ktorý pohľad zobraziť v používateľskom rozhraní.</long>
+      </locale>
+
+      <locale name="sl">
+        <short>Dejavni pogled</short>
+        <long>Pogled uporabniškega vmesnika</long>
+      </locale>
+
+      <locale name="sr">
+        <short>Активни преглед</short>
+        <long>Који преглед приказати у корисничком сучељу.</long>
+      </locale>
+
+      <locale name="sr@Latn">
+        <short>Aktivni pregled</short>
+        <long>Koji pregled prikazati u korisničkom sučelju.</long>
+      </locale>
+
+      <locale name="sv">
+        <short>Den aktiva vyn</short>
+        <long>Vilken vy som ska visas i användargränssnittet.</long>
+      </locale>
+
+      <locale name="ta">
+        <short>செயலில் உள்ள காட்சி</short>
+        <long>பயனர் இனைப்புப்பகுதியில் எந்த காட்சியை தெறியப்படுத்த</long>
+      </locale>
+
+      <locale name="tr">
+        <short>Etkin görünüm</short>
+        
+      </locale>
+
+      <locale name="uk">
+        <short>Активний графік</short>
+        <long>Який графік відображати у інтерфейсі користувача.</long>
+      </locale>
+
+      <locale name="vi">
+        <short>Khung xem hoạt động</short>
+        <long>Khung xem nào cần hiển thị trong giao diện người dùng.</long>
+      </locale>
+
+      <locale name="zh_CN">
+        <short>活动视图</short>
+        <long>在用户界面中显示哪种视图。</long>
+      </locale>
+
+      <locale name="zh_HK">
+        <short>作用中的檢視</short>
+        <long>於使用者界面中要顯示哪種檢視。</long>
+      </locale>
+
+      <locale name="zh_TW">
+        <short>作用中的檢視</short>
+        <long>於使用者界面中要顯示哪種檢視。</long>
+      </locale>
+    </schema>
+
+  </schemalist>
+</gconfschemafile>
+

@@ -1,0 +1,11 @@
+<ui>
+  <menubar name="MenuBar">
+    <menu action="File">
+      <menu action="Export">
+        <placeholder  name="Export placeholder">
+          <menuitem action="HTML Export"/>
+        </placeholder>
+      </menu>
+    </menu>
+  </menubar>
+</ui>

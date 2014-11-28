@@ -1,0 +1,72 @@
+<ui>
+  <menubar           name="MenuBar">
+    <menu            action="File">
+      <menuitem      action="FileNew"/>
+      <menuitem      action="FileOpen"/>
+      <menuitem      action="FileOpenRecent"/>
+      <menu          action="Import">
+        <placeholder name="Import placeholder"/>
+      </menu>
+      <separator/>
+      <menuitem      action="FileSave"/>
+      <menuitem      action="FileSaveAs"/>
+      <menu          action="Export">
+        <placeholder name="Export placeholder"/>
+      </menu>
+      <separator/>
+      <menuitem      action="FilePageSetup"/>
+      <menuitem      action="FilePrint"/>
+      <menuitem      action="FilePrintPreview"/>
+      <separator/>
+      <menuitem      action="FileClose"/>
+      <menuitem      action="FileExit"/>
+    </menu>
+
+    <menu            action="Edit">
+      <menuitem      action="EditUndo"/>
+      <menuitem      action="EditRedo"/>
+      <separator/>
+      <placeholder   name="View specific placeholder"/>
+      <placeholder   name="Selection placeholder"/>
+    </menu>
+
+    <menu            action="View">
+      <placeholder   name="Views placeholder"/>
+      <separator/>
+      <placeholder   name="View specific placeholder"/>
+      <separator/>
+      <placeholder   name="View specific placeholder bottom"/>
+    </menu>
+
+    <menu            action="Actions">
+      <placeholder   name="View specific actions placeholder"/>
+    </menu>
+
+    <menu            action="Project">
+      <menuitem      action="ManageCalendars"/>
+      <menuitem      action="EditDayTypes"/>
+      <separator/>
+      <menuitem      action="EditPhases"/>
+      <separator/>
+      <menuitem      action="EditProjectProps"/>
+    </menu>
+
+    <menu            action="Help">
+      <menuitem      action="HelpHelp"/>
+      <menuitem      action="HelpAbout"/>
+    </menu>
+  </menubar>
+
+  <toolbar           name="ToolBar">
+    <toolitem        action="FileNew"/>
+    <toolitem        action="FileOpen"/>
+    <toolitem        action="FileSave"/>
+    <separator/>
+    <toolitem        action="FilePrint"/>
+    <toolitem        action="FilePrintPreview"/>
+    <separator/> 
+    <toolitem        action="EditUndo"/>
+    <toolitem        action="EditRedo"/>
+  </toolbar>
+
+</ui>

@@ -1,0 +1,16 @@
+<ui>
+  <menubar name="MenuBar">
+    <menu action="File">
+      <menu action="Import">
+        <placeholder name="Import placeholder">
+          <menuitem action="Open"/>
+        </placeholder>
+      </menu>
+      <menu action="Export">
+        <placeholder name="Export placeholder">
+	  <menuitem action="Save"/>
+	</placeholder>
+      </menu>
+    </menu>
+  </menubar>
+</ui>
