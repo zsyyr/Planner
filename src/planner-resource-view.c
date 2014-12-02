@@ -46,7 +46,7 @@ struct _PlannerResourceViewPriv {
 	GtkItemFactory         *popup_factory;
 	GtkTreeView            *tree_view;
 	GHashTable             *property_to_column;
-
+	GtkWidget				  *qualification_dialog;
 	GtkWidget              *group_dialog;
 	GtkWidget              *resource_input_dialog;
 
@@ -146,6 +146,8 @@ static void           resource_view_cell_group_hide_popup    (PlannerCellRendere
 							      PlannerView             *view);
 static void           resource_view_edit_groups_cb           (GtkAction               *action,
 							      gpointer                 data);
+static void			 resource_view_edit_qualifications_cb	 (GtkAction               *action,
+	      gpointer                 data);
 static void           resource_view_project_loaded_cb        (MrpProject              *project,
 							      PlannerView             *view);
 static GList *        resource_view_selection_get_list       (PlannerView             *view);
@@ -254,6 +256,7 @@ static const GtkActionEntry entries[] = {
 	{ "EditGroups",       "planner-stock-edit-groups",     N_("Edit _Groups"),
 	  NULL,                N_("Edit resource groups"),
 	  G_CALLBACK (resource_view_edit_groups_cb) },
+
 	{ "SelectAll",        NULL,                            N_("Select _All"),
 	  "<Control>a",        N_("Select all tasks"),
 	  G_CALLBACK (resource_view_select_all_cb) },
@@ -262,7 +265,10 @@ static const GtkActionEntry entries[] = {
 	  G_CALLBACK (resource_view_edit_custom_props_cb) },
 	{ "EditColumns",     NULL,                           N_("Edit _Visible Columns"),
 	  NULL,                N_("Edit visible columns"),
-	  G_CALLBACK (resource_view_edit_columns_cb) }
+	  G_CALLBACK (resource_view_edit_columns_cb) },
+	{ "EditQualifications",       "planner-stock-pert-chart",     N_("Edit _Qualifications"),
+	  	  NULL,                NULL,
+	  	  G_CALLBACK (resource_view_edit_qualifications_cb) }
 };
 
 enum {
@@ -1158,6 +1164,16 @@ resource_view_group_dialog_closed (GtkWidget *widget, gpointer data)
 	view = PLANNER_RESOURCE_VIEW (data);
 
 	view->priv->group_dialog = NULL;
+}
+
+static void
+resource_view_qualification_dialog_closed (GtkWidget *widget, gpointer data)
+{
+	PlannerResourceView *view;
+
+	view = PLANNER_RESOURCE_VIEW (data);
+
+	view->priv->qualification_dialog = NULL;
 }
 
 static gboolean
@@ -2097,6 +2113,26 @@ resource_view_edit_groups_cb (GtkAction *action,
 	}
 }
 
+static void
+resource_view_edit_qualifications_cb	 (GtkAction               *action,
+	      gpointer                 data)
+{
+	PlannerView *view;
+
+		view = PLANNER_VIEW (data);
+
+		/* FIXME: we have to destroy group_dialog correctly */
+		if (PLANNER_RESOURCE_VIEW (view)->priv->qualification_dialog == NULL) {
+			PLANNER_RESOURCE_VIEW (view)->priv->qualification_dialog = planner_qualification_dialog_new (view);
+
+			g_signal_connect (PLANNER_RESOURCE_VIEW (view)->priv->qualification_dialog,
+					  "destroy",
+					  G_CALLBACK (resource_view_qualification_dialog_closed),
+					  view);
+		} else {
+			gtk_window_present (GTK_WINDOW (PLANNER_RESOURCE_VIEW (view)->priv->qualification_dialog));
+		}
+}
 static void
 resource_view_project_loaded_cb (MrpProject *project, PlannerView *view)
 {

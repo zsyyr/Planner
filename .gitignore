@@ -27,4 +27,4 @@ xmldocs.make
 src/*.lo
 !libplanner
 !.gitignore
-
+libplanner/*.lo

@@ -123,6 +123,7 @@ am_libplannerapp_la_OBJECTS = $(am__objects_1) eel-canvas-rect.lo \
 	planner-column-dialog.lo planner-day-type-dialog.lo \
 	planner-default-week-dialog.lo planner-format.lo \
 	planner-group-dialog.lo planner-group-model.lo \
+	planner-qualification-dialog.lo planner-qualification-model.lo \
 	planner-list-model.lo planner-phase-dialog.lo \
 	planner-plugin.lo planner-plugin-loader.lo \
 	planner-popup-button.lo planner-popup-entry.lo \
@@ -459,6 +460,10 @@ libplannerapp_la_SOURCES = \
 	planner-group-dialog.h		\
 	planner-group-model.c		\
 	planner-group-model.h		\
+	planner-qualification-dialog.c		\
+	planner-qualification-dialog.h		\
+	planner-qualification-model.c		\
+	planner-qualification-model.h		\
 	planner-list-model.c		\
 	planner-list-model.h		\
 	planner-pert-chart.c		\
@@ -776,6 +781,8 @@ include ./$(DEPDIR)/planner-gantt-row.Plo
 include ./$(DEPDIR)/planner-gantt-view.Plo
 include ./$(DEPDIR)/planner-group-dialog.Plo
 include ./$(DEPDIR)/planner-group-model.Plo
+include ./$(DEPDIR)/planner-qualification-dialog.Plo
+include ./$(DEPDIR)/planner-qualification-model.Plo
 include ./$(DEPDIR)/planner-html-plugin.Plo
 include ./$(DEPDIR)/planner-list-model.Plo
 include ./$(DEPDIR)/planner-main.Po

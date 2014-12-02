@@ -186,39 +186,40 @@ mqm_get_value (GtkTreeModel *tree_model,
 		gint          column,
 		GValue       *value)
 {
-        gchar                 *str = NULL;
-	MrpQualification              *qualification, *default_qualification;
+	gchar *str = NULL;
+	MrpQualification *qualification, *default_qualification;
 	PlannerQualificationModelPriv *priv;
-	gboolean               is_default;
+	gboolean is_default;
 
-        g_return_if_fail (PLANNER_IS_QUALIFICATION_MODEL (tree_model));
-        g_return_if_fail (iter != NULL);
+	g_return_if_fail(PLANNER_IS_QUALIFICATION_MODEL (tree_model));
+	g_return_if_fail(iter != NULL);
 
-	priv = PLANNER_QUALIFICATION_MODEL (tree_model)->priv;
-        qualification = MRP_QUALIFICATION (planner_list_model_get_object (
-				   PLANNER_LIST_MODEL (tree_model), iter));
+	priv = PLANNER_QUALIFICATION_MODEL (tree_model) ->priv;
+	qualification = MRP_QUALIFICATION (planner_list_model_get_object (
+					PLANNER_LIST_MODEL (tree_model), iter));
 
-        switch (column) {
-        case QUALIFICATION_COL_NAME:
-                mrp_object_get (qualification, "name", &str, NULL);
-		g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (value, str);
-		g_free (str);
-                break;
-        case QUALIFICATION_COL_NOTE:
-                mrp_object_get (qualification, "note", &str, NULL);
-                g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (value, str);
-		g_free (str);
+	switch (column) {
+	case QUALIFICATION_COL_NAME:
+		mrp_object_get(qualification, "name", &str, NULL );
+		g_value_init(value, G_TYPE_STRING );
+		g_value_set_string(value, str);
+		g_free(str);
+		break;
+	case QUALIFICATION_COL_NOTE:
+		mrp_object_get(qualification, "note", &str, NULL );
+		g_value_init(value, G_TYPE_STRING );
+		g_value_set_string(value, str);
+		g_free(str);
 
-                break;
-        case QUALIFICATION_COL:
-                g_value_init (value, MRP_TYPE_QUALIFICATION);
-                g_value_set_object (value, qualification);
-                break;
+		break;
+	case QUALIFICATION_COL:
+		g_value_init(value, MRP_TYPE_QUALIFICATION);
+		g_value_set_object(value, qualification);
+		break;
 
 	default:
-                g_assert_not_reached ();
+		g_assert_not_reached ()
+		;
         }
 }
 
@@ -330,11 +331,7 @@ planner_qualification_model_new (MrpProject *project)
 				 "qualification_removed",
 				 G_CALLBACK (mqm_qualification_removed_cb),
 				 model, 0);
-
-	g_signal_connect_object (project,
-				 "default_qualification_changed",
-				 G_CALLBACK (mqm_default_qualification_changed_cb),
-				 model, 0);
+	mrp_object_set(qualifications, "name", "aaa", NULL );
 
         return model;
 }
