@@ -29,6 +29,7 @@
 #include "mrp-resource.h"
 #include "mrp-error.h"
 #include "mrp-task.h"
+#include "mrp-qualification.h"
 
 /* Properties */
 enum {
@@ -51,6 +52,7 @@ enum {
 	PROP_PRIORITY,
 	PROP_ID,
 	PROP_NEEDIT,
+	PROP_QUALIFICATION,
 	PROP_NEEDC
 };
 
@@ -150,6 +152,7 @@ struct _MrpTaskPriv {
 	gint              id;
 	gboolean          needit;
 	gboolean          needc;
+	MrpQualification   *qualification;
 };
 
 
@@ -169,6 +172,8 @@ static void task_assignment_removed_cb (MrpAssignment      *assignment,
 					MrpTask            *task);
 static void task_group_assignment_removed_cb (MrpGroupAssignment      *assignment,
 					MrpTask            *task);
+static void task_qualification_removed_cb (MrpQualification     *qualification,
+					MrpTask  *task);
 static void task_remove_assignments    (MrpTask            *task);
 static void task_remove_group_assignments    (MrpTask            *task);
 static void task_remove_relations      (MrpTask            *task);
@@ -225,6 +230,7 @@ task_init (MrpTask *task)
 	priv->cost = 0.0;
 	priv->cost_cached = FALSE;
 	priv->unit_ivals = NULL;
+	priv->qualification = NULL;
 }
 
 static void
@@ -472,6 +478,14 @@ task_class_init (MrpTaskClass *klass)
 					      "Needc",
 					      FALSE,
 					      G_PARAM_READWRITE));
+	g_object_class_install_property (
+			object_class,
+			PROP_QUALIFICATION,
+			g_param_spec_object("qualification",
+					"Qualification",
+					"The qualification",
+					MRP_TYPE_QUALIFICATION,
+					G_PARAM_READWRITE));
 }
 
 static void
@@ -494,7 +508,9 @@ task_finalize (GObject *object)
 	g_assert (priv->successors == NULL);
 
 	g_node_destroy (priv->node);
-
+	if (priv->qualification) {
+				g_object_unref (priv->qualification);
+			}
 	g_free (priv);
 	task->priv = NULL;
 
@@ -513,6 +529,7 @@ task_set_property (GObject      *object,
 	MrpTaskPriv *priv;
 	const gchar *str;
 	gint         i_val;
+	MrpQualification *qualification;
 	MrpTaskType  type;
 	MrpTaskVirtualType virtualtype;
 	gboolean     changed = FALSE;
@@ -678,6 +695,29 @@ task_set_property (GObject      *object,
 	case PROP_NEEDC:
 			priv->critical = g_value_get_boolean (value);
 			break;
+
+	case PROP_QUALIFICATION:
+				if (priv->qualification != NULL) {
+					g_object_unref (priv->qualification);
+					g_signal_handlers_disconnect_by_func
+						(priv->qualification,
+						 task_qualification_removed_cb,
+						 task);
+
+				}
+				qualification = g_value_get_object (value);
+				if (qualification != NULL) {
+					g_object_ref (qualification);
+					g_signal_connect (G_OBJECT (qualification),
+							  "removed",
+							  G_CALLBACK (task_qualification_removed_cb),
+							  task);
+				}
+				if (qualification != priv->qualification) {
+					changed = TRUE;
+				}
+				priv->qualification = qualification;
+				break;
 	default:
 		break;
 	}
@@ -757,6 +797,9 @@ task_get_property (GObject    *object,
 	case PROP_NEEDC:
 			g_value_set_boolean (value, priv->needc);
 			break;
+	case PROP_QUALIFICATION:
+				g_value_set_object (value, priv->qualification);
+				break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -797,6 +840,16 @@ task_assignment_removed_cb (MrpAssignment *assignment, MrpTask *task)
 	g_object_unref (assignment);
 
 	mrp_object_changed (MRP_OBJECT (task));
+}
+
+static void
+task_qualification_removed_cb (MrpQualification     *qualification,
+			   MrpTask  *task)
+{
+	g_return_if_fail (MRP_IS_TASK (task));
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
+
+	mrp_object_set (MRP_OBJECT (task), "qualification", NULL, NULL);
 }
 
 static void

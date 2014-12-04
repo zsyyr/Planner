@@ -331,7 +331,7 @@ planner_qualification_model_new (MrpProject *project)
 				 "qualification_removed",
 				 G_CALLBACK (mqm_qualification_removed_cb),
 				 model, 0);
-	mrp_object_set(qualifications, "name", "aaa", NULL );
+
 
         return model;
 }

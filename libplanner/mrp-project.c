@@ -1439,13 +1439,15 @@ void
 mrp_project_add_qualification (MrpProject *project, MrpQualification *qualification)
 {
 	MrpProjectPriv *priv;
-
+	gint id = 0;
 	g_return_if_fail (MRP_IS_PROJECT (project));
 	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
 
 	priv = project->priv;
 
-	priv->qualifications = g_list_prepend (priv->qualifications, qualification);
+	priv->qualifications = g_list_append (priv->qualifications, qualification);
+	id = g_list_index (priv->qualifications,qualification);
+	mrp_qualification_set_id(qualification,id+1);
 
 	g_object_set (qualification, "project", project, NULL);
 

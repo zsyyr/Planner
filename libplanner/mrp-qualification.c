@@ -17,6 +17,7 @@ struct _MrpQualificationPriv {
 	MrpProject 		*project;
 	gchar 				*name;
 	gchar 				*note;
+	gint				*id;
 };
 
 /* Properties */
@@ -24,7 +25,8 @@ enum {
         PROP_0,
         PROP_PROJECT,
         PROP_NAME,
-        PROP_NOTE
+        PROP_NOTE,
+        PROP_ID
 };
 
 
@@ -101,6 +103,14 @@ qualification_class_init (MrpQualificationClass *klass)
         							"The note",
         							"empty",
         							G_PARAM_READWRITE));
+        g_object_class_install_property (
+        				object_class,
+        				PROP_ID,
+        				g_param_spec_int ("id",
+        						  "QualificationId",
+        						  "Id of qualification",
+        						  0, 100, 0,
+        						  G_PARAM_READWRITE));
 }
 
 static void
@@ -110,6 +120,7 @@ qualification_init (MrpQualification *qualification)
         priv->name  = g_strdup ("");
         priv->note = g_strdup ("");
         priv->project = NULL;
+        priv->id = 0;
         priv = g_new0 (MrpQualificationPriv, 1);
 
         qualification->priv = priv;
@@ -145,7 +156,7 @@ qualification_set_property (GObject      *object,
 	const gchar *str;
 	qualification = MRP_QUALIFICATION (object);
 	priv          =   qualification->priv;
-
+	gint         i_val;
 	switch (prop_id) {
 	case PROP_PROJECT:
 		if (priv->project) {
@@ -174,9 +185,15 @@ qualification_set_property (GObject      *object,
 					priv->note = g_strdup (str);
 					changed = TRUE;
 				}
-
 				break;
+	case PROP_ID:
+					i_val = g_value_get_int (value);
 
+					if (priv->id != i_val) {
+						priv->id = i_val;
+						changed = TRUE;
+					}
+				break;
 	default:
 		break;
 	}
@@ -207,6 +224,9 @@ qualification_get_property (GObject    *object,
 	case PROP_NOTE:
 		g_value_set_string (value, priv->note);
 		break;
+	case PROP_ID:
+				g_value_set_int (value, priv->id);
+				break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -256,4 +276,19 @@ void mrp_qualification_set_name(MrpQualification *qualif,gchar *name){
 		g_return_if_fail (name != NULL);
 		qualif->priv->name =  g_strdup(name);
 
+}
+
+void
+mrp_qualification_set_id (MrpQualification *qualification, gint id)
+{
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
+
+	qualification->priv->id = id;
+}
+gint
+mrp_qualification_get_id (MrpQualification *qualification)
+{
+	g_return_val_if_fail (MRP_IS_QUALIFICATION(qualification), 0);
+
+	return qualification->priv->id;
 }

@@ -1262,6 +1262,85 @@ GList * get_all_task_ids(MrpProject *project)
 	return task_ids;
 }
 
+GList * get_all_resources_qualification_ids(MrpProject *project)
+{
+	GList *resources_qualif_ids = NULL;
+	GList *all_resources;
+	GList *l = NULL;
+	all_resources = mrp_project_get_resources(project);
+	gint i = 0;
+	gint rec_qualif_num[100];
+	gchar *n = NULL;
+	GList *qualifications = NULL;
+	GList *recource_sum = NULL;
+	MrpQualification *qualification = NULL;
+	qualifications = mrp_project_get_qualifications(project);
+	gint qualif_num = g_list_length(qualifications);
+	gint ln;
+	for(i = 0;i < 100;i++){
+		rec_qualif_num[i] = 0;
+	}
+	if(all_resources)
+	{
+		for(l=all_resources;l;l=l->next)
+		{
+			mrp_object_get(MRP_OBJECT (l->data),"qualification",&qualification,NULL);
+			if(qualification)
+			{
+				i = mrp_qualification_get_id(qualification);
+				rec_qualif_num[i-1]++;
+				n = mrp_qualification_get_name(qualification);
+			}
+			//this list is the id each resource's qualif has
+			resources_qualif_ids = g_list_append(resources_qualif_ids,i);
+			gchar *a = mrp_resource_get_name(l->data);
+
+			g_printf("the %s resource's qualification id is %d,name is %s\n",a,i,n);
+		}
+		for(ln = 0;ln < qualif_num;ln++)
+		{
+			recource_sum = g_list_append(recource_sum,rec_qualif_num[ln]);
+			g_printf("the qualification sum is %d\n",rec_qualif_num[ln]);
+		}
+		//this list is the qualifications how many resources used
+		return recource_sum;
+	}else
+		return NULL;
+}
+
+GArray * get_all_task_qualification_ids(MrpProject *project)
+{
+	//GList *task_qualif_ids = NULL;
+	GArray *task_qualif_ids = NULL;
+	GList *all_tasks;
+	GList *l = NULL;
+	all_tasks = mrp_project_get_all_tasks(project);
+	gint i = 0;
+	gchar *n = NULL;
+	MrpQualification *qualification = NULL;
+	task_qualif_ids = g_array_new(FALSE,TRUE,sizeof(int));
+	if(all_tasks)
+	{
+		for(l=all_tasks;l;l=l->next)
+		{
+			mrp_object_get(MRP_OBJECT (l->data),"qualification",&qualification,NULL);
+			if(qualification)
+			{
+				i = mrp_qualification_get_id(qualification);
+				n = mrp_qualification_get_name(qualification);
+			}
+			//task_qualif_ids = g_list_append(task_qualif_ids,i);
+			task_qualif_ids = g_array_append_val(task_qualif_ids,i);
+			gchar *a = mrp_task_get_name(l->data);
+
+			g_printf("the %s task's qualification id is %d,name is %s\n",a,i,n);
+			g_printf("%d\n",task_qualif_ids->len);
+		}
+	}
+
+	return task_qualif_ids;
+}
+
 void print_all_task_names(MrpProject *project)
 {
 	GList *all_tasks;
@@ -1275,6 +1354,19 @@ void print_all_task_names(MrpProject *project)
 			}
 }
 
+void print_all_qualification_names(MrpProject *project)
+{
+	GList *all_qualifs;
+	GList *l;
+	gint i = 0;
+	all_qualifs = mrp_project_get_qualifications(project);
+	for(l=all_qualifs;l;l=l->next)
+			{
+
+				g_printf("%s, %d \n",mrp_qualification_get_name(l->data),mrp_qualification_get_id(l->data));
+				g_printf("\n");
+			}
+}
 void set_all_task_ids(MrpProject *project)
 {
 	GList *all_tasks;
@@ -1362,6 +1454,72 @@ gboolean isinlist(GList *l,gint i){
 	isin = FALSE;
 	return isin;
 }
+
+void write_resource_sum(MrpProject *project)
+{
+	GList *res_qualif_ids;
+	GList *l = NULL;
+	GList *ll =NULL;
+	gint i;
+	gint qualif_num = 0;
+	gint rec_qualif_num[100];
+	gchar *path = "/home/zms/test/testwrite/ResourceSum.txt";
+
+	res_qualif_ids = get_all_resources_qualification_ids(project);
+	GString *str = g_string_new(NULL );
+	gchar *c = g_malloc_n(10, sizeof(gchar));
+	GList *nl;
+	for (nl = res_qualif_ids; nl; nl = nl->next) {
+		g_sprintf(c, "%d", nl->data);
+		//	  	    	g_printf("%s\n",c);
+		g_string_append(str, c);
+		g_string_append(str, " ");
+	}
+	g_string_append(str, "\n");
+	g_free(c);
+
+
+	writefile(path, str);
+	g_string_free(str, TRUE);
+
+}
+
+void write_resource_odd(MrpProject *project)
+{
+	GArray *task_qualif_ids;
+	GList *l = NULL;
+	GList *ll =NULL;
+	GList *qualifications = NULL;
+	gint i;
+	//gint qualif_num = 0;
+	gint rec_qualif_num[100];
+	gchar *path = "/home/zms/test/testwrite/ResourceOdd.txt";
+
+	qualifications = mrp_project_get_qualifications(project);
+	gint qualif_num = g_list_length(qualifications);
+	task_qualif_ids = get_all_task_qualification_ids(project);
+	GString *str = g_string_new(NULL );
+	gchar *c = g_malloc_n(10, sizeof(gchar));
+	gint nl;
+	for (nl = 0; nl < task_qualif_ids->len; nl++) {
+		gint a = g_array_index(task_qualif_ids,int,nl);
+		for(i = 0;i < qualif_num;i++){
+			if(i+1 == a)
+				g_sprintf(c,"%d",1);
+			else
+				g_sprintf(c, "%d",0);
+			//	  	    	g_printf("%s\n",c);
+			g_string_append(str, c);
+			g_string_append(str, " ");
+		}
+		g_string_append(str, "\n");
+	}
+	g_free(c);
+	writefile(path, str);
+	g_string_free(str, TRUE);
+
+}
+
 
 void write_precedence(MrpProject *project)
 {
@@ -1500,7 +1658,7 @@ static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 	l = get_all_task_ids(project);
 //	writefile(writefilepath);
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
-	alltasks = mrp_project_get_all_tasks(project);
+	/*alltasks = mrp_project_get_all_tasks(project);
 	set_all_task_ids(project);
 	write_duration(project);
 	write_precedence(project);
@@ -1513,7 +1671,13 @@ static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 
 	mrp_object_get(q,"name",&n,NULL);
 //	n = mrp_qualification_get_name(q);
-	g_printf("%s\n",n);
+	g_printf("%s\n",n);*/
+
+	get_all_task_qualification_ids(project);
+	print_all_qualification_names(project);
+	//get_all_resources_qualification_ids(project);
+	//write_resource_sum(project);
+	write_resource_odd(project);
 //		int i =0;
 //		for(l = alltasks;l;l = l->next)
 //		{
