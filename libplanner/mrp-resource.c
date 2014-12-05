@@ -31,12 +31,14 @@
 #include "mrp-group.h"
 #include "mrp-task.h"
 #include "mrp-resource.h"
+#include "mrp-qualification.h"
 
 
 struct _MrpResourcePriv {
 	gchar           *name;
 	gchar		*short_name;
         MrpGroup        *group;
+        MrpQualification *qualification;
         MrpResourceType  type;
         gint             units;
         gboolean         exclusive;
@@ -56,6 +58,7 @@ enum {
         PROP_NAME,
 	PROP_SHORT_NAME,
         PROP_GROUP,
+        PROP_QUALIFICATION,
         PROP_TYPE,
         PROP_UNITS,
         PROP_EMAIL,
@@ -94,7 +97,8 @@ static void resource_assignment_removed_cb (MrpAssignment    *assignment,
 					    MrpResource      *resource);
 static void resource_group_removed_cb      (MrpGroup         *group,
 					    MrpResource      *resource);
-
+static void resource_qualification_removed_cb (MrpQualification     *qualification,
+						MrpResource  *resource);
 
 static MrpObjectClass *parent_class;
 static guint signals[LAST_SIGNAL];
@@ -162,6 +166,13 @@ resource_class_init (MrpResourceClass *klass)
 							      "The group that the resource belongs to",
 							      MRP_TYPE_GROUP,
 							      G_PARAM_READWRITE));
+        g_object_class_install_property (object_class,
+                                                PROP_QUALIFICATION,
+                                                g_param_spec_object ("qualification",
+       							      "Qualification",
+       							      "The qualification",
+       							      MRP_TYPE_QUALIFICATION,
+       							      G_PARAM_READWRITE));
         g_object_class_install_property (object_class,
                                          PROP_TYPE,
                                          g_param_spec_int ("type",
@@ -266,6 +277,7 @@ resource_init (MrpResource *resource)
         priv->name        = g_strdup ("");
 	priv->short_name    = g_strdup ("");
 	priv->group       = NULL;
+	priv->qualification = NULL;
 	priv->email       = g_strdup ("");
 	priv->note        = g_strdup ("");
 	priv->hasit       = TRUE;
@@ -288,6 +300,9 @@ resource_finalize (GObject *object)
 	if (priv->group) {
 		g_object_unref (priv->group);
 	}
+	if (priv->qualification) {
+			g_object_unref (priv->qualification);
+		}
 	if (priv->calendar) {
 		g_object_unref (priv->calendar);
 	}
@@ -313,6 +328,7 @@ resource_set_property (GObject      *object,
 	gint             i_val;
 	gfloat           f_val;
 	MrpGroup        *group;
+	MrpQualification *qualification;
 	MrpCalendar     *calendar;
 	MrpProject      *project;
 
@@ -348,7 +364,6 @@ resource_set_property (GObject      *object,
 				 resource);
 
 		}
-
 		group = g_value_get_object (value);
 		if (group != NULL) {
 			g_object_ref (group);
@@ -362,6 +377,29 @@ resource_set_property (GObject      *object,
 		}
 		priv->group = group;
 		break;
+
+	case PROP_QUALIFICATION:
+			if (priv->qualification != NULL) {
+				g_object_unref (priv->qualification);
+				g_signal_handlers_disconnect_by_func
+					(priv->qualification,
+					 resource_qualification_removed_cb,
+					 resource);
+
+			}
+			qualification = g_value_get_object (value);
+			if (qualification != NULL) {
+				g_object_ref (qualification);
+				g_signal_connect (G_OBJECT (qualification),
+						  "removed",
+						  G_CALLBACK (resource_qualification_removed_cb),
+						  resource);
+			}
+			if (qualification != priv->qualification) {
+				changed = TRUE;
+			}
+			priv->qualification = qualification;
+			break;
 	case PROP_TYPE:
 		i_val = g_value_get_int (value);
 
@@ -499,6 +537,9 @@ resource_get_property (GObject    *object,
 	case PROP_GROUP:
 		g_value_set_object (value, priv->group);
 		break;
+	case PROP_QUALIFICATION:
+			g_value_set_object (value, priv->qualification);
+			break;
 	case PROP_TYPE:
 		g_value_set_int (value, priv->type);
 		break;
@@ -605,7 +646,15 @@ resource_group_removed_cb (MrpGroup     *group,
 
 	mrp_object_set (MRP_OBJECT (resource), "group", NULL, NULL);
 }
+static void
+resource_qualification_removed_cb (MrpQualification     *qualification,
+			   MrpResource  *resource)
+{
+	g_return_if_fail (MRP_IS_RESOURCE (resource));
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
 
+	mrp_object_set (MRP_OBJECT (resource), "qualification", NULL, NULL);
+}
 static void
 resource_assignment_removed_cb (MrpAssignment *assignment,
 				MrpResource *resource)

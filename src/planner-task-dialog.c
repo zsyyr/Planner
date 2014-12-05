@@ -32,6 +32,7 @@
 #include <libplanner/mrp-object.h>
 #include <libplanner/mrp-project.h>
 #include <libplanner/mrp-private.h>
+#include <libplanner/mrp-qualification.h>
 #include "libplanner/mrp-paths.h"
 #include "planner-cell-renderer-list.h"
 #include "planner-assignment-model.h"
@@ -51,6 +52,7 @@ typedef struct {
 	GtkWidget     *name_entry;
 	GtkWidget     *milestone_checkbutton;
 	GtkWidget     *fixed_checkbutton;
+	GtkWidget     *qualification_menu;
 	GtkWidget     *work_entry;
 	GtkWidget     *duration_entry;
 	GtkWidget     *schedule_label;
@@ -184,7 +186,7 @@ static void            task_dialog_new_pred_cancel_clicked_cb     (GtkWidget    
 								   GtkWidget               *dialog);
 static void            task_dialog_update_sensitivity             (DialogData              *data);
 static void            task_dialog_update_title                   (DialogData              *data);
-
+static void			  task_dialog_qualification_changed_cb (GtkWidget  *w,				  DialogData *data);
 
 
 /* Keep the dialogs here so that we can just raise the dialog if it's
@@ -1445,6 +1447,128 @@ task_dialog_virtual_toggled_cb (GtkWidget *w, DialogData *data)
 }
 
 static void
+task_dialog_setup_option_qualifications (GtkWidget *menu_qualifications,
+				     GList     *qualifications)
+{
+	GtkWidget *menu;
+	GtkWidget *menu_item;
+	gchar     *name;
+	GList     *l;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (menu_qualifications));
+
+	if (menu) {
+		gtk_widget_destroy (menu);
+	}
+
+	menu = gtk_menu_new ();
+
+	/* Put "no group" at the top. */
+	menu_item = gtk_menu_item_new_with_label (_("(None)"));
+	gtk_widget_show (menu_item);
+	gtk_menu_append (GTK_MENU (menu), menu_item);
+
+	for (l = qualifications; l; l = l->next) {
+		g_object_get (G_OBJECT (l->data),
+			      "name", &name,
+			      NULL);
+
+		if (name == NULL) {
+			name = g_strdup (_("(No name)"));
+		}
+
+		menu_item = gtk_menu_item_new_with_label (name);
+		gtk_widget_show (menu_item);
+		gtk_menu_append (GTK_MENU (menu), menu_item);
+
+		g_object_set_data (G_OBJECT (menu_item),
+				   "data",
+				   l->data);
+	}
+
+	gtk_widget_show (menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (menu_qualifications), menu);
+}
+
+static MrpQualification *
+task_dialog_option_menu_get_qualification_selected (GtkWidget *option_menu)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	MrpGroup  *ret;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
+
+	item = gtk_menu_get_active (GTK_MENU (menu));
+
+	ret = g_object_get_data (G_OBJECT (item), "data");
+
+	return ret;
+}
+
+static void
+task_dialog_notify_qualification_cb (MrpTask *task,
+				 GParamSpec  *pspec,
+				 GtkWidget   *dialog)
+{
+	DialogData *data;
+	MrpProject *project;
+	MrpQualification   *qualification;
+	GList      *qualifications;
+	gint        index;
+
+	g_return_if_fail (MRP_IS_TASK (task));
+
+	data = DIALOG_GET_DATA (dialog);
+
+	g_object_get (task,
+		      "qualification",   &qualification,
+		      "project", &project,
+		      NULL);
+
+	g_signal_handlers_block_by_func (data->qualification_menu,
+					 task_dialog_qualification_changed_cb,
+					 dialog);
+
+	qualifications = mrp_project_get_qualifications (project);
+	if (qualifications == NULL) {
+		index = 0;
+	} else {
+		index = g_list_index (qualifications, qualification) + 1;
+	}
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->qualification_menu), index);
+
+	g_signal_handlers_unblock_by_func (data->qualification_menu,
+					   task_dialog_qualification_changed_cb,
+					   dialog);
+}
+
+static void
+task_dialog_qualification_changed_cb (GtkWidget  *w,
+				  DialogData *data)
+{
+	MrpQualification    *qualification;
+	GValue       value = { 0 };
+
+	qualification = task_dialog_option_menu_get_qualification_selected (data->qualification_menu);
+
+	g_value_init (&value, MRP_TYPE_QUALIFICATION);
+	g_value_set_object (&value, qualification);
+
+	g_signal_handlers_block_by_func (data->task,
+					 task_dialog_notify_qualification_cb,
+					 data->dialog);
+//todo
+	//task_cmd_edit_property_focus (data->main_window, data->task, "qualification", &value);
+    mrp_object_set(MRP_OBJECT (data->task),"qualification",qualification,NULL);
+	g_signal_handlers_unblock_by_func (data->task,
+					   task_dialog_notify_qualification_cb,
+					   data->dialog);
+	g_value_unset (&value);
+}
+
+static void
 task_dialog_type_toggled_cb (GtkWidget *w, DialogData *data)
 {
 	MrpTaskType type;
@@ -2696,6 +2820,9 @@ task_dialog_setup_widgets (DialogData *data,
 	gint          int_value;
 	gchar        *str;
 	GtkWidget    *hbox;
+	MrpQualification *qualification;
+	GList			  *qualifications;
+	gint             index = 0;
 
 	w = glade_xml_get_widget (glade, "close_button");
 	g_signal_connect (w,
@@ -2736,6 +2863,25 @@ task_dialog_setup_widgets (DialogData *data,
 			  "toggled",
 			  G_CALLBACK (task_dialog_virtual_toggled_cb),
 			  data);
+	data->qualification_menu = glade_xml_get_widget (glade, "menu_qualification");
+	mrp_object_get (MRP_OBJECT (data->task),"qualification",&qualification,NULL);
+	qualifications = mrp_project_get_qualifications (mrp_object_get_project (MRP_OBJECT (data->task)));
+			task_dialog_setup_option_qualifications (data->qualification_menu, qualifications);
+
+			/* Select the right group. + 1 is for the empty group at the top. */
+			if (qualifications == NULL) {
+				index = 0;
+			} else {
+				index = g_list_index (qualifications, qualification) + 1;
+			}
+
+			gtk_option_menu_set_history (GTK_OPTION_MENU (data->qualification_menu),
+						     index);
+
+			g_signal_connect (data->qualification_menu,
+					  "changed",
+					  G_CALLBACK (task_dialog_qualification_changed_cb),
+					  data);
 
 	data->milestone_checkbutton = glade_xml_get_widget (glade, "milestone_checkbutton");
 	g_object_get (data->task, "type", &type, NULL);
@@ -3197,6 +3343,11 @@ task_dialog_connect_to_task (DialogData *data)
 				 G_CALLBACK (task_dialog_task_child_added_or_removed_cb),
 				 data->dialog,
 				 0);
+	g_signal_connect_object (data->task,
+						 "notify::qualification",
+						 G_CALLBACK (task_dialog_notify_qualification_cb),
+						 data->dialog,
+						 0);
 }
 
 static void
@@ -3345,7 +3496,7 @@ planner_task_dialog_new (PlannerWindow *window,
 
 	data->predecessor_list = glade_xml_get_widget (glade, "predecessor_list");
 	task_dialog_setup_predecessor_list (data);
-
+	data->qualification_menu = glade_xml_get_widget (glade, "menu_qualification");
 	w = glade_xml_get_widget (glade, "add_predecessor_button");
 	g_signal_connect (w,
 			  "clicked",

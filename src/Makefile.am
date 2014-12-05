@@ -67,6 +67,10 @@ libplannerapp_la_SOURCES = 			\
 	planner-group-dialog.h		\
 	planner-group-model.c		\
 	planner-group-model.h		\
+	planner-qualification-dialog.c		\
+	planner-qualification-dialog.h		\
+	planner-qualification-model.c		\
+	planner-qualification-model.h		\
 	planner-list-model.c		\
 	planner-list-model.h		\
 	planner-phase-dialog.c		\

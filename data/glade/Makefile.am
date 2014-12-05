@@ -5,6 +5,7 @@ glade_DATA = \
 	calendar-dialog.glade		\
 	column-dialog.glade		\
 	group-dialog.glade		\
+	qualification-dialog.glade	\
 	new-property.glade		\
 	project-properties.glade	\
 	property-dialog.glade		\

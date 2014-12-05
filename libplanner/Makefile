@@ -94,7 +94,7 @@ libplanner_1_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__objects_1 = mrp-marshal.lo
 am_libplanner_1_la_OBJECTS = $(am__objects_1) mrp-application.lo \
 	mrp-assignment.lo mrp-calendar.lo mrp-day.lo mrp-group.lo \
-	mrp-object.lo mrp-file-module.lo mrp-project.lo \
+	mrp-object.lo mrp-file-module.lo mrp-project.lo mrp-qualification.lo\
 	mrp-resource.lo mrp-storage-module.lo mrp-group-assignment.lo\
 	mrp-storage-module-factory.lo mrp-task-manager.lo mrp-task.lo \
 	mrp-relation.lo mrp-types.lo mrp-property.lo mrp-time.lo \
@@ -361,6 +361,7 @@ libplanner_1_la_SOURCES = \
 	mrp-day.c				\
 	mrp-group-assignment.c			\
 	mrp-group.c				\
+	mrp-qualification.c			\
 	mrp-object.c				\
 	mrp-file-module.c			\
 	mrp-file-module.h			\
@@ -386,6 +387,7 @@ libplannerinclude_HEADERS = \
 	mrp-assignment.h			\
 	mrp-calendar.h				\
 	mrp-group-assignment.h			\
+	mrp-qualification.h			\
 	mrp-day.h				\
 	mrp-group.h				\
 	mrp-object.h				\

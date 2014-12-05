@@ -72,6 +72,7 @@ typedef enum {
 typedef struct _MrpTask       MrpTask;
 typedef struct _MrpResource   MrpResource;
 typedef struct _MrpGroup      MrpGroup;
+typedef struct _MrpQualification MrpQualification;
 typedef struct _MrpAssignment MrpAssignment;
 typedef struct _MrpConstraint MrpConstraint;
 typedef struct _MrpGroupAssignment MrpGroupAssignment;

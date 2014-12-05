@@ -31,6 +31,7 @@
 #include <libplanner/mrp-resource.h>
 #include <libplanner/mrp-calendar.h>
 #include <libplanner/mrp-time.h>
+#include <libplanner/mrp-qualification.h>
 #include "libplanner/mrp-paths.h"
 
 #include "planner-format.h"
@@ -45,6 +46,7 @@ typedef struct {
 	GtkWidget     *type_menu;
 	GtkWidget     *email_entry;
 	GtkWidget     *group_menu;
+	GtkWidget     *qualification_menu;
 	GtkWidget     *cost_entry;
 	GtkWidget     *calendar_tree_view;
 	GtkWidget     *note_textview;
@@ -107,7 +109,12 @@ static void          resource_dialog_notify_type_cb              (MrpResource   
 								  GtkWidget     *dialog);
 static void          resource_dialog_group_changed_cb            (GtkWidget     *w,
 								  DialogData    *data);
+static void          resource_dialog_qualification_changed_cb            (GtkWidget     *w,
+								  DialogData    *data);
 static void          resource_dialog_notify_group_cb             (MrpResource   *resource,
+								  GParamSpec    *pspec,
+								  GtkWidget     *dialog);
+static void          resource_dialog_notify_qualification_cb             (MrpResource   *resource,
 								  GParamSpec    *pspec,
 								  GtkWidget     *dialog);
 static void          resource_dialog_email_changed_cb            (GtkWidget     *w,
@@ -404,6 +411,50 @@ resource_dialog_setup_option_groups (GtkWidget *menu_groups,
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (menu_groups), menu);
 }
 
+static void
+resource_dialog_setup_option_qualifications (GtkWidget *menu_qualifications,
+				     GList     *qualifications)
+{
+	GtkWidget *menu;
+	GtkWidget *menu_item;
+	gchar     *name;
+	GList     *l;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (menu_qualifications));
+
+	if (menu) {
+		gtk_widget_destroy (menu);
+	}
+
+	menu = gtk_menu_new ();
+
+	/* Put "no group" at the top. */
+	menu_item = gtk_menu_item_new_with_label (_("(None)"));
+	gtk_widget_show (menu_item);
+	gtk_menu_append (GTK_MENU (menu), menu_item);
+
+	for (l = qualifications; l; l = l->next) {
+		g_object_get (G_OBJECT (l->data),
+			      "name", &name,
+			      NULL);
+
+		if (name == NULL) {
+			name = g_strdup (_("(No name)"));
+		}
+
+		menu_item = gtk_menu_item_new_with_label (name);
+		gtk_widget_show (menu_item);
+		gtk_menu_append (GTK_MENU (menu), menu_item);
+
+		g_object_set_data (G_OBJECT (menu_item),
+				   "data",
+				   l->data);
+	}
+
+	gtk_widget_show (menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (menu_qualifications), menu);
+}
+
 static gint
 resource_dialog_option_menu_get_type_selected (GtkWidget *option_menu)
 {
@@ -422,6 +473,22 @@ resource_dialog_option_menu_get_type_selected (GtkWidget *option_menu)
 
 static MrpGroup *
 resource_dialog_option_menu_get_group_selected (GtkWidget *option_menu)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	MrpGroup  *ret;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
+
+	item = gtk_menu_get_active (GTK_MENU (menu));
+
+	ret = g_object_get_data (G_OBJECT (item), "data");
+
+	return ret;
+}
+
+static MrpQualification *
+resource_dialog_option_menu_get_qualification_selected (GtkWidget *option_menu)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
@@ -473,6 +540,11 @@ resource_dialog_connect_to_resource (DialogData *data)
 				 data->dialog,
 				 0);
 
+	g_signal_connect_object (resource,
+					 "notify::qualification",
+					 G_CALLBACK (resource_dialog_notify_qualification_cb),
+					 data->dialog,
+					 0);
 	g_signal_connect_object (resource,
 				 "notify::email",
 				 G_CALLBACK (resource_dialog_notify_email_cb),
@@ -1125,6 +1197,44 @@ resource_dialog_notify_group_cb (MrpResource *resource,
 }
 
 static void
+resource_dialog_notify_qualification_cb (MrpResource *resource,
+				 GParamSpec  *pspec,
+				 GtkWidget   *dialog)
+{
+	DialogData *data;
+	MrpProject *project;
+	MrpQualification   *qualification;
+	GList      *qualifications;
+	gint        index;
+
+	g_return_if_fail (MRP_IS_RESOURCE (resource));
+
+	data = DIALOG_GET_DATA (dialog);
+
+	g_object_get (resource,
+		      "qualification",   &qualification,
+		      "project", &project,
+		      NULL);
+
+	g_signal_handlers_block_by_func (data->qualification_menu,
+					 resource_dialog_qualification_changed_cb,
+					 dialog);
+
+	qualifications = mrp_project_get_qualifications (project);
+	if (qualifications == NULL) {
+		index = 0;
+	} else {
+		index = g_list_index (qualifications, qualification) + 1;
+	}
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->qualification_menu), index);
+
+	g_signal_handlers_unblock_by_func (data->qualification_menu,
+					   resource_dialog_qualification_changed_cb,
+					   dialog);
+}
+
+static void
 resource_dialog_group_changed_cb (GtkWidget  *w,
 				  DialogData *data)
 {
@@ -1144,6 +1254,30 @@ resource_dialog_group_changed_cb (GtkWidget  *w,
 
 	g_signal_handlers_unblock_by_func (data->resource,
 					   resource_dialog_notify_group_cb,
+					   data->dialog);
+	g_value_unset (&value);
+}
+
+static void
+resource_dialog_qualification_changed_cb (GtkWidget  *w,
+				  DialogData *data)
+{
+	MrpQualification    *qualification;
+	GValue       value = { 0 };
+
+	qualification = resource_dialog_option_menu_get_qualification_selected (data->qualification_menu);
+
+	g_value_init (&value, MRP_TYPE_QUALIFICATION);
+	g_value_set_object (&value, qualification);
+
+	g_signal_handlers_block_by_func (data->resource,
+					 resource_dialog_notify_qualification_cb,
+					 data->dialog);
+
+	resource_cmd_edit_property (data->main_window, data->resource, "qualification", &value);
+
+	g_signal_handlers_unblock_by_func (data->resource,
+					   resource_dialog_notify_qualification_cb,
 					   data->dialog);
 	g_value_unset (&value);
 }
@@ -1749,9 +1883,11 @@ planner_resource_dialog_new (PlannerWindow *window,
 	gchar           *name, *short_name, *email;
 	MrpProject      *project;
 	MrpGroup        *group;
+	MrpQualification *qualification;
 	MrpResourceType  type;
 	gfloat           cost;
 	GList           *groups;
+	GList			  *qualifications;
 	gint             index = 0;
 	gchar           *note;
 	gchar           *filename;
@@ -1814,6 +1950,7 @@ planner_resource_dialog_new (PlannerWindow *window,
 	data->short_name_entry = glade_xml_get_widget (glade, "entry_short_name");
 	data->type_menu = glade_xml_get_widget (glade, "menu_type");
 	data->group_menu = glade_xml_get_widget (glade, "menu_group");
+	data->qualification_menu = glade_xml_get_widget (glade, "menu_qualification");
 	data->email_entry = glade_xml_get_widget (glade, "entry_email");
 	data->cost_entry = glade_xml_get_widget (glade, "entry_cost");
 	data->calendar_tree_view = glade_xml_get_widget (glade, "calendar_treeview");
@@ -1873,6 +2010,7 @@ planner_resource_dialog_new (PlannerWindow *window,
 			"short_name",  &short_name,
 			"type",  &type,
 			"group", &group,
+			"qualification",&qualification,
 			"email", &email,
 			"cost",  &cost,
 			"exclusive",exclusive,
@@ -1960,6 +2098,24 @@ planner_resource_dialog_new (PlannerWindow *window,
 			  "changed",
 			  G_CALLBACK (resource_dialog_group_changed_cb),
 			  data);
+//add the qualification menu
+	qualifications = mrp_project_get_qualifications (project);
+		resource_dialog_setup_option_qualifications (data->qualification_menu, qualifications);
+
+		/* Select the right group. + 1 is for the empty group at the top. */
+		if (qualifications == NULL) {
+			index = 0;
+		} else {
+			index = g_list_index (qualifications, qualification) + 1;
+		}
+
+		gtk_option_menu_set_history (GTK_OPTION_MENU (data->qualification_menu),
+					     index);
+
+		g_signal_connect (data->qualification_menu,
+				  "changed",
+				  G_CALLBACK (resource_dialog_qualification_changed_cb),
+				  data);
 
 	gtk_entry_set_text (GTK_ENTRY (data->email_entry), email);
 

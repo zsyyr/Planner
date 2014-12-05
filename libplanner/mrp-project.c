@@ -35,6 +35,7 @@
 #include "mrp-property.h"
 #include "mrp-resource.h"
 #include "mrp-project.h"
+#include "mrp-qualification.h"
 
 struct _MrpProjectPriv {
 	MrpApplication   *app;
@@ -44,7 +45,7 @@ struct _MrpProjectPriv {
 	//gchar				*location;
 	GList            *resources;
 	GList            *groups;
-
+   GList				*qualifications;
 	MrpStorageModule *primary_storage;
 
 	mrptime           project_start;
@@ -93,6 +94,8 @@ enum {
 	GROUP_ADDED,
 	GROUP_REMOVED,
 	DEFAULT_GROUP_CHANGED,
+	QUALIFICATION_ADDED,
+	QUALIFICATION_REMOVED,
 	TASK_INSERTED,
 	TASK_REMOVED,
 	TASK_MOVED,
@@ -203,7 +206,25 @@ project_class_init (MrpProjectClass *klass)
 		 mrp_marshal_VOID__OBJECT,
 		 G_TYPE_NONE,
 		 1, MRP_TYPE_RESOURCE);
+	signals[QUALIFICATION_ADDED] = g_signal_new
+			("qualification_added",
+			 G_TYPE_FROM_CLASS (klass),
+			 G_SIGNAL_RUN_LAST,
+			 0, /*G_STRUCT_OFFSET (MrpProjectClass, method), */
+			 NULL, NULL,
+			 mrp_marshal_VOID__OBJECT,
+			 G_TYPE_NONE,
+			 1, MRP_TYPE_QUALIFICATION);
 
+		signals[QUALIFICATION_REMOVED] = g_signal_new
+			("qualification_removed",
+			 G_TYPE_FROM_CLASS (klass),
+			 G_SIGNAL_RUN_LAST,
+			 0, /*G_STRUCT_OFFSET (MrpProjectClass, method), */
+			 NULL, NULL,
+			 mrp_marshal_VOID__OBJECT,
+			 G_TYPE_NONE,
+			 1, MRP_TYPE_QUALIFICATION);
 	signals[GROUP_ADDED] = g_signal_new
 		("group_added",
 		 G_TYPE_FROM_CLASS (klass),
@@ -422,6 +443,7 @@ project_init (MrpProject *project)
 	priv->project_start = mrp_time_align_day (mrp_time_current_time ());
 	priv->resources     = NULL;
 	priv->groups        = NULL;
+	priv->qualifications= NULL;
 	priv->organization  = g_strdup ("");
 	priv->manager       = g_strdup ("");
 	priv->name          = g_strdup ("");
@@ -1334,7 +1356,6 @@ imrp_project_set_groups (MrpProject *project,
 			project);
 
 }
-
 /**
  * mrp_project_add_group:
  * @project: an #MrpProject
@@ -1389,6 +1410,70 @@ mrp_project_remove_group (MrpProject *project, MrpGroup *group)
 	g_signal_emit (project, signals[GROUP_REMOVED], 0, group);
 
 	mrp_object_removed (MRP_OBJECT (group));
+
+	imrp_project_set_needs_saving (project, TRUE);
+}
+
+GList *
+mrp_project_get_qualifications (MrpProject *project)
+{
+	g_return_val_if_fail (MRP_IS_PROJECT (project), NULL);
+
+	return project->priv->qualifications;
+}
+
+void
+imrp_project_set_qualifications (MrpProject *project,
+			 GList      *qualifications)
+{
+	g_return_if_fail (MRP_IS_PROJECT (project));
+
+	project->priv->qualifications = qualifications;
+
+	g_list_foreach (project->priv->qualifications,
+			(GFunc) project_connect_object,
+			project);
+
+}
+void
+mrp_project_add_qualification (MrpProject *project, MrpQualification *qualification)
+{
+	MrpProjectPriv *priv;
+	gint id = 0;
+	g_return_if_fail (MRP_IS_PROJECT (project));
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
+
+	priv = project->priv;
+
+	priv->qualifications = g_list_append (priv->qualifications, qualification);
+	id = g_list_index (priv->qualifications,qualification);
+	mrp_qualification_set_id(qualification,id+1);
+
+	g_object_set (qualification, "project", project, NULL);
+
+	project_connect_object (MRP_OBJECT (qualification), project);
+
+	g_signal_emit (project, signals[QUALIFICATION_ADDED], 0, qualification);
+
+	imrp_project_set_needs_saving (project, TRUE);
+}
+
+
+void
+mrp_project_remove_qualification (MrpProject *project, MrpQualification *qualification)
+{
+	MrpProjectPriv *priv;
+
+	g_return_if_fail (MRP_IS_PROJECT (project));
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
+
+	priv = project->priv;
+
+	priv->qualifications = g_list_remove (priv->qualifications, qualification);
+
+	g_signal_emit (project, signals[QUALIFICATION_REMOVED], 0, qualification);
+
+	mrp_object_removed (MRP_OBJECT (qualification));
 
 	imrp_project_set_needs_saving (project, TRUE);
 }

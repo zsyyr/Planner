@@ -17,6 +17,8 @@ libplanner_1_la_SOURCES = 			\
 	mrp-assignment.c			\
 	mrp-group-assignment.c			\
 	mrp-group-assignment.h			\
+	mrp-qualification.c			\
+	mrp-qualification.h			\
 	mrp-calendar.c				\
 	mrp-day.c				\
 	mrp-group.c				\
@@ -44,6 +46,7 @@ libplannerinclude_HEADERS = 			\
 	mrp-application.h			\
 	mrp-assignment.h			\
 	mrp-group-assignment.h			\
+	mrp-qualification.h			\
 	mrp-calendar.h				\
 	mrp-day.h				\
 	mrp-group.h				\

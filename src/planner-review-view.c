@@ -36,7 +36,7 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-line.h>
 #include <glade/glade.h>
-
+#include "libplanner/mrp-qualification.h"
 struct _PlannerReviewViewPriv {
 	GtkWidget             *paned; //separately reviews pert view and dynamic gantt view
 	GtkWidget             *tree;
@@ -71,6 +71,11 @@ struct _PlannerReviewViewPriv {
 	gulong                 expose_id;
 };
 
+struct WriteTaskInfo{
+	gchar *taskname;
+	gint taskid;
+
+};
 //*******************
 //*******************
 //*******************
@@ -1227,25 +1232,176 @@ void display_array(GArray *array,int len,const char *prompt)
 	}
 }
 
-gint writefile(gchar *path)
+void print_int_list(GList *list,const char *prompt)
 {
+	GList *l;
+	printf("%s:\n",prompt);
+	gint i = 0;
+	for(l = list;l;l = l->next)
+	{
+		g_printf("%d",l->data);
+		g_printf(" ");
+	}
+		g_printf("\n");
+}
 
+GList * get_all_task_ids(MrpProject *project)
+{
+	GList *task_ids = NULL;
+	GList *all_tasks;
+	GList *l = NULL;
+	all_tasks = mrp_project_get_all_tasks(project);
+	if(all_tasks)
+	{
+		for(l=all_tasks;l;l=l->next)
+		{
+			gint i = mrp_task_get_id(l->data);
+			task_ids = g_list_append(task_ids,i);
+		}
+	}
+	return task_ids;
+}
+
+GList * get_all_resources_qualification_ids(MrpProject *project)
+{
+	GList *resources_qualif_ids = NULL;
+	GList *all_resources;
+	GList *l = NULL;
+	all_resources = mrp_project_get_resources(project);
+	gint i = 0;
+	gint rec_qualif_num[100];
+	gchar *n = NULL;
+	GList *qualifications = NULL;
+	GList *recource_sum = NULL;
+	MrpQualification *qualification = NULL;
+	qualifications = mrp_project_get_qualifications(project);
+	gint qualif_num = g_list_length(qualifications);
+	gint ln;
+	for(i = 0;i < 100;i++){
+		rec_qualif_num[i] = 0;
+	}
+	if(all_resources)
+	{
+		for(l=all_resources;l;l=l->next)
+		{
+			mrp_object_get(MRP_OBJECT (l->data),"qualification",&qualification,NULL);
+			if(qualification)
+			{
+				i = mrp_qualification_get_id(qualification);
+				rec_qualif_num[i-1]++;
+				n = mrp_qualification_get_name(qualification);
+			}
+			//this list is the id each resource's qualif has
+			resources_qualif_ids = g_list_append(resources_qualif_ids,i);
+			gchar *a = mrp_resource_get_name(l->data);
+
+			g_printf("the %s resource's qualification id is %d,name is %s\n",a,i,n);
+		}
+		for(ln = 0;ln < qualif_num;ln++)
+		{
+			recource_sum = g_list_append(recource_sum,rec_qualif_num[ln]);
+			g_printf("the qualification sum is %d\n",rec_qualif_num[ln]);
+		}
+		//this list is the qualifications how many resources used
+		return recource_sum;
+	}else
+		return NULL;
+}
+
+GArray * get_all_task_qualification_ids(MrpProject *project)
+{
+	//GList *task_qualif_ids = NULL;
+	GArray *task_qualif_ids = NULL;
+	GList *all_tasks;
+	GList *l = NULL;
+	all_tasks = mrp_project_get_all_tasks(project);
+	gint i = 0;
+	gchar *n = NULL;
+	MrpQualification *qualification = NULL;
+	task_qualif_ids = g_array_new(FALSE,TRUE,sizeof(int));
+	if(all_tasks)
+	{
+		for(l=all_tasks;l;l=l->next)
+		{
+			mrp_object_get(MRP_OBJECT (l->data),"qualification",&qualification,NULL);
+			if(qualification)
+			{
+				i = mrp_qualification_get_id(qualification);
+				n = mrp_qualification_get_name(qualification);
+			}
+			//task_qualif_ids = g_list_append(task_qualif_ids,i);
+			task_qualif_ids = g_array_append_val(task_qualif_ids,i);
+			gchar *a = mrp_task_get_name(l->data);
+
+			g_printf("the %s task's qualification id is %d,name is %s\n",a,i,n);
+			g_printf("%d\n",task_qualif_ids->len);
+		}
+	}
+
+	return task_qualif_ids;
+}
+
+void print_all_task_names(MrpProject *project)
+{
+	GList *all_tasks;
+	GList *l;
+	gint i = 0;
+	all_tasks = mrp_project_get_all_tasks(project);
+	for(l=all_tasks;l;l=l->next)
+			{
+				g_printf("%s  ",mrp_task_get_name(l->data));
+				g_printf("\n");
+			}
+}
+
+void print_all_qualification_names(MrpProject *project)
+{
+	GList *all_qualifs;
+	GList *l;
+	gint i = 0;
+	all_qualifs = mrp_project_get_qualifications(project);
+	for(l=all_qualifs;l;l=l->next)
+			{
+
+				g_printf("%s, %d \n",mrp_qualification_get_name(l->data),mrp_qualification_get_id(l->data));
+				g_printf("\n");
+			}
+}
+void set_all_task_ids(MrpProject *project)
+{
+	GList *all_tasks;
+	GList *l;
+	gint i = 0;
+	all_tasks = mrp_project_get_all_tasks(project);
+	for(l=all_tasks;l;l=l->next)
+		{
+			i++;
+			mrp_task_set_id(l->data,i);
+		}
+}
+
+GList *get_all_tasks_duration(MrpProject *project)
+{
+	GList *all_tasks = NULL;
+	GList *durations = NULL;
+	GList *l;
+	gint duration;
+	all_tasks = mrp_project_get_all_tasks(project);
+	for(l = all_tasks;l;l = l->next)
+	{
+		duration = mrp_task_get_duration(l->data);
+		durations = g_list_append(durations,duration/(3600*8));
+	}
+	return durations;
+
+}
+gint writefile(gchar *path,GString *str)
+{
 	    g_type_init ();
-	    GArray *array;
 	    GFile            *file;/* 文件抽象数据类型 */
 	    GOutputStream    *fos; /* 用来写的 */
 	    GError           *error = NULL;
-	    array = g_array_new(FALSE,TRUE,sizeof(int));
-	    gint i;
-	    gint len = 0;
-	   /* for(i=0;i<15;i++)
-	    {
-	    	g_array_append_val(array,i);
-	    	len++;
-	    }
-	     创建file对象 */
 	    file = g_file_new_for_path (path);
-
 	    /* 获取输出流 */
 	    fos = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE,
 	                                           G_FILE_CREATE_NONE,
@@ -1256,34 +1412,181 @@ gint writefile(gchar *path)
 	        g_error_free (error);
 	        return 1;
 	    }
-
 	    /* 写入 */
-	    GString *str = g_string_new (NULL);
-
-	    gchar *c = g_malloc_n(10,sizeof(gchar));
-	    for(i = 0;i < 15;i++)
-	    {
-   	    	g_sprintf(c,"%d",i);
-	    	g_printf("%s\n",c);
-	    	g_string_append(str,c);
-	    	g_string_append(str," ");
-	    }
-	    for(i = 0;i < 15;i++)
-	   	    {
-	      	    g_sprintf(c,"%d\n",i);
-	   	    	g_printf("%s\n",c);
-	   	    	g_string_append(str,c);
-
-	   	    }
 	   g_output_stream_write_all (fos, str->str,str->len, NULL, NULL, NULL);
 	    g_output_stream_flush (fos, NULL, NULL);
-	    g_string_free (str, TRUE);
 
 
 	    g_output_stream_close (fos, NULL, NULL);
 	    g_object_unref (file);
 	    return 0;
 }
+
+void write_duration(MrpProject *project)
+{
+	GList *durations;
+	GList *l;
+	gchar *path = "/home/zms/test/testwrite/time.txt";
+	durations = get_all_tasks_duration(project);
+
+	GString *str = g_string_new(NULL );
+	gchar *c = g_malloc_n(10, sizeof(gchar));
+	for (l = durations; l; l = l->next) {
+		g_sprintf(c, "%d", l->data);
+//	  	    	g_printf("%s\n",c);
+		g_string_append(str, c);
+		g_string_append(str, " ");
+	}
+	g_free(c);
+	writefile(path, str);
+	g_string_free(str, TRUE);
+}
+
+gboolean isinlist(GList *l,gint i){
+	gboolean isin;
+	for(;l;l = l->next){
+		if(i == l->data)
+		{
+			isin = TRUE;
+			return isin;
+		}
+	}
+	isin = FALSE;
+	return isin;
+}
+
+void write_resource_sum(MrpProject *project)
+{
+	GList *res_qualif_ids;
+	GList *l = NULL;
+	GList *ll =NULL;
+	gint i;
+	gint qualif_num = 0;
+	gint rec_qualif_num[100];
+	gchar *path = "/home/zms/test/testwrite/ResourceSum.txt";
+
+	res_qualif_ids = get_all_resources_qualification_ids(project);
+	GString *str = g_string_new(NULL );
+	gchar *c = g_malloc_n(10, sizeof(gchar));
+	GList *nl;
+	for (nl = res_qualif_ids; nl; nl = nl->next) {
+		g_sprintf(c, "%d", nl->data);
+		//	  	    	g_printf("%s\n",c);
+		g_string_append(str, c);
+		g_string_append(str, " ");
+	}
+	g_string_append(str, "\n");
+	g_free(c);
+
+
+	writefile(path, str);
+	g_string_free(str, TRUE);
+
+}
+
+void write_resource_odd(MrpProject *project)
+{
+	GArray *task_qualif_ids;
+	GList *l = NULL;
+	GList *ll =NULL;
+	GList *qualifications = NULL;
+	gint i;
+	//gint qualif_num = 0;
+	gint rec_qualif_num[100];
+	gchar *path = "/home/zms/test/testwrite/ResourceOdd.txt";
+
+	qualifications = mrp_project_get_qualifications(project);
+	gint qualif_num = g_list_length(qualifications);
+	task_qualif_ids = get_all_task_qualification_ids(project);
+	GString *str = g_string_new(NULL );
+	gchar *c = g_malloc_n(10, sizeof(gchar));
+	gint nl;
+	for (nl = 0; nl < task_qualif_ids->len; nl++) {
+		gint a = g_array_index(task_qualif_ids,int,nl);
+		for(i = 0;i < qualif_num;i++){
+			if(i+1 == a)
+				g_sprintf(c,"%d",1);
+			else
+				g_sprintf(c, "%d",0);
+			//	  	    	g_printf("%s\n",c);
+			g_string_append(str, c);
+			g_string_append(str, " ");
+		}
+		g_string_append(str, "\n");
+	}
+	g_free(c);
+	writefile(path, str);
+	g_string_free(str, TRUE);
+
+}
+
+
+void write_precedence(MrpProject *project)
+{
+	GList *durations;
+	GList *l = NULL;
+	GList *ll =NULL;
+	GList *presnumber = NULL;
+	GList *pres = NULL;
+	GList *alltasks;
+	MrpTask *task;
+	gint i;
+	gint tasknumbers;
+	alltasks = mrp_project_get_all_tasks(project);
+	gchar *path = "/home/zms/test/testwrite/PrecedencRestrict.txt";
+	durations = get_all_tasks_duration(project);
+	tasknumbers = g_list_length(alltasks);
+	GString *str = g_string_new(NULL );
+	for (l = alltasks; l; l = l->next) {
+		task = l->data;
+//		pres = imrp_task_peek_predecessors(task);
+		GList *pl;
+		pres = NULL;
+		for (pl = imrp_task_peek_predecessors(task); pl; pl = pl->next) {
+			MrpTask *predecessor = mrp_relation_get_predecessor(pl->data);
+
+			if (MRP_IS_TASK (predecessor)) {
+				gchar *name = mrp_task_get_name(predecessor);
+				g_print("%s\n", name);
+				pres = g_list_append(pres,
+						mrp_task_get_id(predecessor));
+			}
+		}
+		for(ll = pres;ll;ll = ll->next)
+					{
+						g_printf("%d  ",ll->data);
+					}
+		presnumber = NULL;
+		for (i = 0; i <= tasknumbers; i++) {
+			ll = pres;
+			if(isinlist(ll,i))
+				presnumber = g_list_append(presnumber, 1);
+			else
+				presnumber = g_list_append(presnumber, 0);
+		}
+		presnumber = presnumber->next;
+		for (ll = presnumber; ll; ll = ll->next) {
+			g_printf("%d  ", ll->data);
+		}
+		g_printf("\n");
+
+		gchar *c = g_malloc_n(10, sizeof(gchar));
+		GList *nl;
+		for (nl = presnumber; nl; nl = nl->next) {
+			g_sprintf(c, "%d", nl->data);
+			//	  	    	g_printf("%s\n",c);
+			g_string_append(str, c);
+			g_string_append(str, " ");
+		}
+		g_string_append(str, "\n");
+		g_free(c);
+	}
+
+	writefile(path, str);
+	g_string_free(str, TRUE);
+
+}
+
 
 gint readfile (gchar *path)
 {
@@ -1349,13 +1652,32 @@ static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 	GList    *l;
 	GList    *ll;
 	//gchar *filepath = "/home/zms/test/readfile";
-	gchar *writefilepath = "/home/zms/test/wirtefiletest";
+	gchar *writefilepath = "/home/zms/test/testwrite";
 	//readfile(filepath);
-
-	writefile(writefilepath);
+	set_all_task_ids(project);
+	l = get_all_task_ids(project);
+//	writefile(writefilepath);
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
-	alltasks = mrp_project_get_all_tasks(project);
+	/*alltasks = mrp_project_get_all_tasks(project);
+	set_all_task_ids(project);
+	write_duration(project);
+	write_precedence(project);
+	MrpQualification *q = mrp_qualification_new();
+	char *nn = mrp_qualification_get_name (q);
+	gchar *a = "aaaaaaaa";
+	g_object_set(q,"name",a,NULL);
+//	 mrp_qualification_set_name(q,a);
+	const gchar *n = NULL;
 
+	mrp_object_get(q,"name",&n,NULL);
+//	n = mrp_qualification_get_name(q);
+	g_printf("%s\n",n);*/
+
+	get_all_task_qualification_ids(project);
+	print_all_qualification_names(project);
+	//get_all_resources_qualification_ids(project);
+	//write_resource_sum(project);
+	write_resource_odd(project);
 //		int i =0;
 //		for(l = alltasks;l;l = l->next)
 //		{
@@ -1377,7 +1699,7 @@ static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 //				g_printf("%d\n",mrp_task_get_id(l->data));
 //			}
 
-		system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");
+//		system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");
 }
 
 static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
@@ -1400,7 +1722,7 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 //	g_return_val_if_fail (MRP_IS_PROJECT (project), FALSE);
 //	g_return_val_if_fail (old_uri != NULL && old_uri[0] != '\0', FALSE);
 
-	/*position = strstr (old_uri, ".planner");
+	position = strstr (old_uri, ".planner");
 	if(position)
 		opt_uri = g_strconcat(g_strndup(old_uri,position-old_uri),"_optimize.planner",NULL);
 	else
@@ -1408,11 +1730,15 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 	g_printf(opt_uri);
 	g_printf("\n");
 	g_free(old_uri);
+/*
+	project_do_save (project, opt_uri,TRUE, &error);
+	test_uri = "/home/zms/planner/examples/shenji.planner";
+	mrp_project_load (project, test_uri, &error);*/
 
-	project_do_save (project, opt_uri,TRUE, &error);*/
-	test_uri = "/home/zms/planner/examples/shenjilizics.planner";
-	mrp_project_load (project, test_uri, &error);
-
+	print_all_task_names(project);
+	set_all_task_ids(project);
+	l = get_all_task_ids(project);
+	print_int_list(l,"task ids");
 
 
 }
