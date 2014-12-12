@@ -1,6 +1,6 @@
 <?xml version ='1.0' encoding='UTF-8'?>
 
-<!ELEMENT project (properties*,phases?,calendars?,tasks?,resource-groups?,resources?,allocations?)>
+<!ELEMENT project (properties*,phases?,calendars?,tasks?,resource-groups?,qualifications?,resources?,allocations?)>
 <!ATTLIST project mrproject-version CDATA #REQUIRED
                   name              CDATA #REQUIRED
                   company           CDATA #IMPLIED
@@ -61,6 +61,7 @@ Note: A mistake in the format design led to this suboptimality. A
                work                 CDATA #IMPLIED
                percent-complete     CDATA #IMPLIED
                priority             CDATA #IMPLIED
+               qualification        CDATA #IMPLIED
                type                 (normal|milestone) "normal"
                scheduling           (fixed-work|
                                      fixed-duration) "fixed-work">
@@ -74,6 +75,13 @@ Note: A mistake in the format design led to this suboptimality. A
                 admin-name  CDATA #IMPLIED
                 admin-email CDATA #IMPLIED
                 admin-phone CDATA #IMPLIED>
+                
+<!ELEMENT qualifications (qualification*)>
+
+<!ELEMENT qualification EMPTY>
+<!ATTLIST qualification id          CDATA #REQUIRED
+			name        CDATA #REQUIRED
+			note  CDATA #IMPLIED>
 
 <!ELEMENT resources (resource*)>
 
@@ -84,6 +92,7 @@ Note: A mistake in the format design led to this suboptimality. A
                    email              CDATA #IMPLIED
                    type               (1|2) #REQUIRED
                    group              CDATA #IMPLIED
+                   qualification      CDATA #IMPLIED
                    units              CDATA #REQUIRED
                    note               CDATA #IMPLIED
                    std-rate           CDATA #IMPLIED

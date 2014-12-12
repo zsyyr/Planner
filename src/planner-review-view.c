@@ -857,6 +857,8 @@ review_view_create_widget (PlannerReviewView *view)
 
 
 
+
+
     randomtogglebutton = gtk_toggle_button_new_with_label("随机设置审计任务延迟");
 
     font1 = pango_font_description_from_string("Sans");//"Sans"字体名
@@ -1426,7 +1428,7 @@ void write_duration(MrpProject *project)
 {
 	GList *durations;
 	GList *l;
-	gchar *path = "/home/zms/test/testwrite/time.txt";
+	gchar *path = "/usr/local/bin/time.txt";
 	durations = get_all_tasks_duration(project);
 
 	GString *str = g_string_new(NULL );
@@ -1463,7 +1465,7 @@ void write_resource_sum(MrpProject *project)
 	gint i;
 	gint qualif_num = 0;
 	gint rec_qualif_num[100];
-	gchar *path = "/home/zms/test/testwrite/ResourceSum.txt";
+	gchar *path = "/usr/local/bin/ResourceSum.txt";
 
 	res_qualif_ids = get_all_resources_qualification_ids(project);
 	GString *str = g_string_new(NULL );
@@ -1493,7 +1495,8 @@ void write_resource_odd(MrpProject *project)
 	gint i;
 	//gint qualif_num = 0;
 	gint rec_qualif_num[100];
-	gchar *path = "/home/zms/test/testwrite/ResourceOdd.txt";
+//	gchar *path = "/home/zms/test/testwrite/ResourceOdd.txt";
+	gchar *path = "/usr/local/bin/ResourceOdd.txt";
 
 	qualifications = mrp_project_get_qualifications(project);
 	gint qualif_num = g_list_length(qualifications);
@@ -1533,7 +1536,7 @@ void write_precedence(MrpProject *project)
 	gint i;
 	gint tasknumbers;
 	alltasks = mrp_project_get_all_tasks(project);
-	gchar *path = "/home/zms/test/testwrite/PrecedencRestrict.txt";
+	gchar *path = "/usr/local/bin/PrecedenceRestrict.txt";
 	durations = get_all_tasks_duration(project);
 	tasknumbers = g_list_length(alltasks);
 	GString *str = g_string_new(NULL );
@@ -1588,7 +1591,7 @@ void write_precedence(MrpProject *project)
 }
 
 
-gint readfile (gchar *path)
+GArray *readfile (gchar *path)
 {
 
     g_type_init ();
@@ -1627,79 +1630,61 @@ gint readfile (gchar *path)
         if (!line)
             break;
 
-        g_print ("%s\n", line);
-        number = g_ascii_digit_value(*line);
+        g_printf ("%s\n", line);
+        number = g_strtod(line,NULL);
+        g_printf("%d\n",number);
         length++;
-//        g_list_append(l,number);
-        g_array_append_val(array,number);
-//        g_print("%d\n",number);
+        array = g_array_append_val(array,number);
         g_free (line);
     }
-   display_array(array,length,"the int number");
     /* 清理 */
+   display_array(array,length,"the int number");
     g_input_stream_close (fis, NULL, NULL);
     g_object_unref (file);
 
 
-    return 0;
+    return array;
 }
 
 static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 {
-	PlannerReviewViewPriv *priv;
 	MrpProject *project;
-	GList    *alltasks;
-	GList    *l;
-	GList    *ll;
-	//gchar *filepath = "/home/zms/test/readfile";
-	gchar *writefilepath = "/home/zms/test/testwrite";
+	GArray *start_array = NULL;
+	GList *alltasks = NULL;
+	GList *l = NULL;
+	gchar *durationpath = "/usr/local/bin/result.txt";
+	mrptime starttime = 0;
+
+	int i = 0;
+	//gchar *writefilepath = "/home/zms/test/testwrite";
 	//readfile(filepath);
-	set_all_task_ids(project);
-	l = get_all_task_ids(project);
-//	writefile(writefilepath);
+	//	writefile(writefilepath);
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
-	/*alltasks = mrp_project_get_all_tasks(project);
 	set_all_task_ids(project);
-	write_duration(project);
+
+	/*write_duration(project);
 	write_precedence(project);
-	MrpQualification *q = mrp_qualification_new();
-	char *nn = mrp_qualification_get_name (q);
-	gchar *a = "aaaaaaaa";
-	g_object_set(q,"name",a,NULL);
-//	 mrp_qualification_set_name(q,a);
-	const gchar *n = NULL;
-
-	mrp_object_get(q,"name",&n,NULL);
-//	n = mrp_qualification_get_name(q);
-	g_printf("%s\n",n);*/
-
-	get_all_task_qualification_ids(project);
-	print_all_qualification_names(project);
-	//get_all_resources_qualification_ids(project);
-	//write_resource_sum(project);
+	write_resource_sum(project);
 	write_resource_odd(project);
-//		int i =0;
-//		for(l = alltasks;l;l = l->next)
-//		{
-//			i++;
-//			char *taskname = mrp_task_get_name(l->data);
-//			if(taskname)
-//				g_printf("%s\n",taskname);
-//
-//			else
-//				g_print("no name %d\n",i);
-//			mrp_task_set_id(l->data,i);
-//			g_printf(mrp_task_get_id(l->data));
-//			g_printf("\n");
-//		}
-//		for(l = alltasks;l;l = l->next)
-//			{
-//
-//				//g_printf(mrp_task_get_name(l->data));
-//				g_printf("%d\n",mrp_task_get_id(l->data));
-//			}
 
-//		system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");
+
+	system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");*/
+	start_array = readfile(durationpath);
+	alltasks = mrp_project_get_all_tasks(project);
+	starttime = mrp_project_get_project_start (project);
+	for(l = alltasks;l;l = l->next)
+	{
+		starttime += g_array_index(start_array,int,i)*60*60*24;
+		g_printf("%d\n",starttime);
+		i++;
+		imrp_task_set_start(l->data,starttime);
+		MrpConstraint constraint = {MRP_CONSTRAINT_MSO,starttime};
+//		constraint.time = starttime;
+//		constraint.type = MRP_CONSTRAINT_MSO;
+		mrp_object_set (l->data, "constraint", &constraint, NULL);
+
+	}
+
 }
 
 static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
@@ -1715,8 +1700,8 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 	GList    *alltasks;
 	GList    *l;
 	gchar *filepath = "/home/zms/test/readfile";
-
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
+
 
 	old_uri = mrp_project_get_uri(project);
 //	g_return_val_if_fail (MRP_IS_PROJECT (project), FALSE);
@@ -1727,8 +1712,7 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 		opt_uri = g_strconcat(g_strndup(old_uri,position-old_uri),"_optimize.planner",NULL);
 	else
 		opt_uri = g_strconcat (old_uri, "_optimize.planner", NULL);
-	g_printf(opt_uri);
-	g_printf("\n");
+
 	g_free(old_uri);
 /*
 	project_do_save (project, opt_uri,TRUE, &error);
@@ -1737,8 +1721,7 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 
 	print_all_task_names(project);
 	set_all_task_ids(project);
-	l = get_all_task_ids(project);
-	print_int_list(l,"task ids");
+
 
 
 }
