@@ -33,6 +33,7 @@
 #include "mrp-task.h"
 #include "mrp-resource.h"
 #include "mrp-group.h"
+#include "mrp-qualification.h"
 #include "mrp-relation.h"
 #include "mrp-old-xml.h"
 
@@ -46,6 +47,7 @@ typedef struct {
 	MrpTask        *root_task;
 	GList          *resources;
 	GList          *groups;
+	GList			 *qualifications;
 	GList          *assignments;
 
 	mrptime         project_start;
@@ -59,6 +61,7 @@ typedef struct {
 	GHashTable     *task_hash;
 	GHashTable     *resource_hash;
 	GHashTable     *group_hash;
+	GHashTable		 *qualification_hash;
 	GHashTable     *day_hash;
 	GHashTable     *calendar_hash;
 	GList          *delayed_relations;
@@ -76,10 +79,8 @@ typedef struct {
 	gint       id;
 } NodeEntry;
 
-static gchar           *old_xml_get_string            (xmlNodePtr   node,
-						       const char  *name);
-static gint             old_xml_get_int               (xmlNodePtr   node,
-						       const char  *name);
+static gchar *old_xml_get_string (xmlNodePtr node, const char *name);
+static gint  old_xml_get_int (xmlNodePtr node, const char *name);
 static gint             old_xml_get_int_with_default  (xmlNodePtr   node,
 						       const char  *name,
 						       gint         def);
@@ -208,7 +209,7 @@ old_xml_read_task (MrpParser *parser, xmlNodePtr tree, MrpTask *parent)
 	xmlNodePtr     tasks, predecessor;
 	xmlNodePtr     child;
 	gchar          *name;
-	gint           id;
+	gint           id,qid;
 	mrptime        start = 0, end = 0;
 	MrpTask       *task;
 	MrpConstraint  constraint;
@@ -219,6 +220,7 @@ old_xml_read_task (MrpParser *parser, xmlNodePtr tree, MrpTask *parent)
 	gboolean       got_constraint = FALSE;
 	MrpTaskType    type;
 	MrpTaskSched   sched;
+	MrpQualification *qualification;
 
 	if (strcmp (tree->name, "task")){
 		/*g_warning ("Got %s, expected 'task'.", tree->name);*/
@@ -232,7 +234,8 @@ old_xml_read_task (MrpParser *parser, xmlNodePtr tree, MrpTask *parent)
 	priority = old_xml_get_int (tree, "priority");
 	type = old_xml_get_task_type (tree, "type");
 	sched = old_xml_get_task_sched (tree, "scheduling");
-
+	qid         = old_xml_get_int (tree, "qualification");
+	qualification = g_hash_table_lookup (parser->qualification_hash, GINT_TO_POINTER (qid));
 	if (parser->version == 1) {
 		start = old_xml_get_date (tree, "start");
 		end = old_xml_get_date (tree, "end");
@@ -289,6 +292,7 @@ old_xml_read_task (MrpParser *parser, xmlNodePtr tree, MrpTask *parent)
 				     "duration", duration,
 				     "percent_complete", percent_complete,
 				     "priority", priority,
+				     "qualification", qualification,
 				     "note", note,
 				     NULL);
 	}
@@ -361,12 +365,13 @@ old_xml_read_resource (MrpParser *parser, xmlNodePtr tree)
 	gint         type;
 	gchar       *name, *short_name, *email;
 	gchar       *note;
-	gint         gid;
+	gint         gid,qid;
 	gint         units;
 	gfloat       std_rate; /*, ovt_rate;*/
 	gint         calendar_id;
 	MrpResource *resource;
 	MrpGroup    *group;
+	MrpQualification *qualification;
 	MrpCalendar *calendar;
 
 	if (strcmp (tree->name, "resource")){
@@ -378,6 +383,7 @@ old_xml_read_resource (MrpParser *parser, xmlNodePtr tree)
 	name        = old_xml_get_string (tree, "name");
 	short_name  = old_xml_get_string (tree, "short-name");
 	gid         = old_xml_get_int (tree, "group");
+	qid         = old_xml_get_int (tree, "qualification");
 	type        = old_xml_get_int (tree, "type");
 	units       = old_xml_get_int (tree, "units");
 	std_rate    = old_xml_get_float (tree, "std-rate");
@@ -399,6 +405,7 @@ old_xml_read_resource (MrpParser *parser, xmlNodePtr tree)
 	}
 
 	group = g_hash_table_lookup (parser->group_hash, GINT_TO_POINTER (gid));
+	qualification = g_hash_table_lookup (parser->qualification_hash, GINT_TO_POINTER (qid));
 	calendar = g_hash_table_lookup (parser->calendar_hash, GINT_TO_POINTER (calendar_id));
 
 	resource = g_object_new (MRP_TYPE_RESOURCE,
@@ -410,6 +417,7 @@ old_xml_read_resource (MrpParser *parser, xmlNodePtr tree)
 				 "email", email,
 				 "calendar", calendar,
 				 "note", note,
+				 "qualification", qualification,
 				 NULL);
 
 	/* These are cost custom properties */
@@ -473,6 +481,38 @@ old_xml_read_group (MrpParser *parser, xmlNodePtr tree)
 	g_hash_table_insert (parser->group_hash, GINT_TO_POINTER (id), group);
 
 	parser->groups = g_list_prepend (parser->groups, group);
+}
+
+static void
+old_xml_read_qualification (MrpParser *parser, xmlNodePtr tree)
+{
+	gint      id,qid;
+	gchar    *name;
+	gchar    *note;
+	MrpQualification *qualification;
+
+	if (strcmp (tree->name, "qualification")){
+		/*g_warning ("Got %s, expected 'group'.", tree->name);*/
+		return;
+	}
+
+	id = old_xml_get_int (tree, "id");
+
+	name = old_xml_get_string (tree, "name");
+	note  = old_xml_get_string (tree, "note");
+	qid = old_xml_get_int (tree,"qid");
+	qualification = g_object_new (MRP_TYPE_QUALIFICATION,
+			      "name", name,
+			      "note", note,
+			      "id", qid,
+			      NULL);
+
+	g_free (name);
+	g_free (note);
+
+	g_hash_table_insert (parser->qualification_hash, GINT_TO_POINTER (id), qualification);
+
+	parser->qualifications = g_list_prepend (parser->qualifications, qualification);
 }
 
 static void
@@ -960,7 +1000,7 @@ static gboolean
 old_xml_read_project (MrpParser *parser)
 {
 	xmlNodePtr   child;
-	xmlNodePtr   tasks, resources, groups, assignments, calendars;
+	xmlNodePtr   tasks, resources, groups, qualifications, assignments, calendars;
 	gint         gid;
 	MrpCalendar *calendar;
 
@@ -1038,6 +1078,15 @@ old_xml_read_project (MrpParser *parser)
 		g_object_set (parser->project, "calendar", calendar, NULL);
 	}
 
+	/* Load qualifications. */
+		child = old_xml_search_child (parser->doc->children,
+					      "qualifications");
+		if (child != NULL) {
+			for (qualifications = child->children; qualifications; qualifications = qualifications->next) {
+				old_xml_read_qualification (parser, qualifications);
+			}
+		}
+
 	/* Load tasks. */
 	child = old_xml_search_child (parser->doc->children, "tasks");
 	if (child != NULL) {
@@ -1083,7 +1132,6 @@ old_xml_read_project (MrpParser *parser)
 			old_xml_read_assignment (parser, assignments);
 		}
 	}
-
 	return TRUE;
 }
 
@@ -1482,6 +1530,7 @@ mrp_old_xml_parse (MrpProject *project, xmlDoc *doc, GError **error)
 	parser.task_hash = g_hash_table_new (NULL, NULL);
 	parser.resource_hash = g_hash_table_new (NULL, NULL);
 	parser.group_hash = g_hash_table_new (NULL, NULL);
+	parser.qualification_hash = g_hash_table_new (NULL, NULL);
 	parser.day_hash = g_hash_table_new_full (NULL, NULL,
 						 NULL,
 						 (GDestroyNotify) mrp_day_unref);
@@ -1491,6 +1540,7 @@ mrp_old_xml_parse (MrpProject *project, xmlDoc *doc, GError **error)
 
 	g_hash_table_destroy (parser.resource_hash);
 	g_hash_table_destroy (parser.group_hash);
+	g_hash_table_destroy (parser.qualification_hash);
 	g_hash_table_destroy (parser.day_hash);
 	g_hash_table_destroy (parser.calendar_hash);
 
@@ -1517,6 +1567,7 @@ mrp_old_xml_parse (MrpProject *project, xmlDoc *doc, GError **error)
 	g_list_free (parser.delayed_relations);
 
        	imrp_project_set_groups (project, parser.groups);
+       	imrp_project_set_qualifications (project, parser.qualifications);
 
        	for (node = parser.assignments; node; node = node->next) {
 		assignment = MRP_ASSIGNMENT (node->data);

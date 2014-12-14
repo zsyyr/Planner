@@ -134,7 +134,8 @@ xml_locate_type (xmlDoc *doc)
 			ret_val = XML_TYPE_MRP_0_5_1;
 		}
 	}
-
+	//todo dtd not used -zms
+	ret_val = XML_TYPE_MRP_0_6;
 	g_free (filename);
 
 	return ret_val;

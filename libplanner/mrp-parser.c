@@ -41,6 +41,7 @@
 #include "mrp-group.h"
 #include "mrp-relation.h"
 #include "mrp-parser.h"
+#include "mrp-qualification.h"
 
 /* WARNING: This code is a hack just to have a file loader/saver for the old
  * format. Don't expect to understand any of the code or anything. It sucks.
@@ -57,7 +58,7 @@ typedef struct {
 	GList      *resources;
 	GList      *groups;
 	GList      *assignments;
-
+	GList		 *qualifications;
 	mrptime     project_start;
 
 	MrpGroup   *default_group;
@@ -70,6 +71,7 @@ typedef struct {
 	GHashTable *task_hash;
 	GHashTable *resource_hash;
 	GHashTable *group_hash;
+	GHashTable *qualification_hash;
 	GHashTable *day_hash;
 	GHashTable *calendar_hash;
 	GList      *delayed_relations;
@@ -475,6 +477,7 @@ mpp_write_task_cb (MrpTask *task, MrpParser *parser)
 {
 	MrpTask       *parent;
 	NodeEntry     *entry;
+	NodeEntry   	*qualification_entry;
 	xmlNodePtr     node, parent_node;
 	gchar         *name;
 	gchar         *note;
@@ -487,6 +490,7 @@ mpp_write_task_cb (MrpTask *task, MrpParser *parser)
 	MrpTaskType    type;
 	MrpTaskSched   sched;
 	GList         *predecessors, *l;
+	MrpQualification *qualification;
 
 	/* Don't want the root task. */
 	if (task == parser->root_task) {
@@ -515,6 +519,7 @@ mpp_write_task_cb (MrpTask *task, MrpParser *parser)
 		      "priority", &priority,
 		      "type", &type,
 		      "sched", &sched,
+		      "qualification", &qualification,
 		      NULL);
 
 	work_start = mrp_task_get_work_start (task);
@@ -532,6 +537,11 @@ mpp_write_task_cb (MrpTask *task, MrpParser *parser)
 
 	if (sched == MRP_TASK_SCHED_FIXED_DURATION) {
 		mpp_xml_set_int (node, "duration", duration);
+	}
+
+	qualification_entry = g_hash_table_lookup (parser->qualification_hash, qualification);
+	if (qualification_entry != NULL) {
+		mpp_xml_set_int (node, "qualification", qualification_entry->id);
 	}
 
 	mpp_xml_set_date (node, "start", start);
@@ -612,6 +622,54 @@ mpp_write_group (MrpParser *parser, xmlNodePtr parent, MrpGroup *group)
 }
 
 static void
+mpp_hash_insert_qualification (MrpParser *parser, MrpQualification *qualification)
+{
+	NodeEntry *entry;
+
+	entry = g_new0 (NodeEntry, 1);
+
+	entry->id = parser->last_id++;
+
+	g_hash_table_insert (parser->qualification_hash, qualification, entry);
+}
+
+static void
+mpp_write_qualification (MrpParser *parser, xmlNodePtr parent, MrpQualification *qualification)
+{
+	NodeEntry  *entry;
+	xmlNodePtr  node;
+	gchar      *name, *note;
+	gint		 *id;
+
+	g_return_if_fail (MRP_IS_QUALIFICATION (qualification));
+
+	node = xmlNewChild (parent,
+                            NULL,
+			    "qualification",
+			    NULL);
+
+	entry = g_hash_table_lookup (parser->qualification_hash, qualification);
+	entry->node = node;
+
+	mpp_xml_set_int (node, "id", entry->id);
+
+	g_object_get (qualification,
+		      "name", &name,
+		      "note", &note,
+		      "id", &id,
+		      NULL);
+
+	xmlSetProp (node, "name", name);
+	xmlSetProp (node, "note", note);
+	mpp_xml_set_int (node, "qid", id);
+
+
+	g_free (name);
+	g_free (note);
+}
+
+
+static void
 mpp_hash_insert_resource (MrpParser *parser, MrpResource *resource)
 {
 	NodeEntry  *entry;
@@ -633,8 +691,10 @@ mpp_write_resource (MrpParser   *parser,
 	gint         type, units;
 	gfloat       std_rate; /*, ovt_rate;*/
 	NodeEntry   *group_entry;
+	NodeEntry   *qualification_entry;
 	NodeEntry   *resource_entry;
 	MrpGroup    *group;
+	MrpQualification *qualification;
 	MrpCalendar *calendar;
 	gint         id;
 
@@ -652,17 +712,22 @@ mpp_write_resource (MrpParser   *parser,
 			"type", &type,
 			"units", &units,
 			"group", &group,
+			"qualification", &qualification,
 			"cost", &std_rate,
 			"note", &note,
 			/*"cost-overtime", &ovt_rate,*/
 			NULL);
 
 	group_entry = g_hash_table_lookup (parser->group_hash, group);
-
 	/* FIXME: should group really be able to be NULL? Should always
 	 * be default group? */
 	if (group_entry != NULL) {
-		mpp_xml_set_int (node, "group", group_entry->id);
+			mpp_xml_set_int (node, "group", group_entry->id);
+		}
+
+	qualification_entry = g_hash_table_lookup (parser->qualification_hash, qualification);
+	if (qualification_entry != NULL) {
+		mpp_xml_set_int (node, "qualification", qualification_entry->id);
 	}
 
 	resource_entry = g_hash_table_lookup (parser->resource_hash, resource);
@@ -964,6 +1029,20 @@ mpp_write_project (MrpParser *parser)
 	entry->id = 0;
 	entry->node = child;
 
+	/* Write qualifications. */
+	child = xmlNewChild(node, NULL, "qualifications", NULL );
+	list = mrp_project_get_qualifications(parser->project);
+
+	/* Generate IDs and hash table. */
+	parser->last_id = 1;
+	for (l = list; l; l = l->next) {
+		mpp_hash_insert_qualification(parser, l->data);
+	}
+	for (l = list; l; l = l->next) {
+		mpp_write_qualification(parser, child, l->data);
+	}
+
+
 	g_hash_table_insert (parser->task_hash, parser->root_task, entry);
 
 	/* Generate IDs and hash table. */
@@ -1045,6 +1124,7 @@ parser_build_xml_doc (MrpStorageMrproject  *module,
 	parser.project = module->project;
 	parser.task_hash = g_hash_table_new_full (NULL, NULL, NULL, g_free);
 	parser.group_hash = g_hash_table_new_full (NULL, NULL, NULL, g_free);
+	parser.qualification_hash = g_hash_table_new_full (NULL,NULL,NULL,g_free);
 	parser.resource_hash = g_hash_table_new_full (NULL, NULL, NULL, g_free);
 	parser.day_hash = g_hash_table_new (NULL, NULL);
 	parser.calendar_hash = g_hash_table_new (NULL, NULL);
@@ -1066,6 +1146,7 @@ parser_build_xml_doc (MrpStorageMrproject  *module,
 
 	g_hash_table_destroy (parser.task_hash);
 	g_hash_table_destroy (parser.group_hash);
+	g_hash_table_destroy (parser.qualification_hash);
 	g_hash_table_destroy (parser.resource_hash);
 	g_hash_table_destroy (parser.day_hash);
 	g_hash_table_destroy (parser.calendar_hash);
