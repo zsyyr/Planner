@@ -36,7 +36,7 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-line.h>
 #include <glade/glade.h>
-#include "libplanner/mrp-qualification.h"
+#include <libplanner/mrp-qualification.h>
 struct _PlannerReviewViewPriv {
 	GtkWidget             *paned; //separately reviews pert view and dynamic gantt view
 	GtkWidget             *tree;
