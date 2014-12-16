@@ -174,7 +174,7 @@ static void task_group_assignment_removed_cb (MrpGroupAssignment      *assignmen
 					MrpTask            *task);
 static void task_qualification_removed_cb (MrpQualification     *qualification,
 					MrpTask  *task);
-static void task_remove_assignments    (MrpTask            *task);
+void task_remove_assignments    (MrpTask            *task);
 static void task_remove_group_assignments    (MrpTask            *task);
 static void task_remove_relations      (MrpTask            *task);
 
@@ -907,7 +907,7 @@ task_remove_relations (MrpTask *task)
 	}
 }
 
-static void
+void
 task_remove_assignments (MrpTask *task)
 {
 	MrpTaskPriv   *priv;

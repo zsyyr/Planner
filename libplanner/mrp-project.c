@@ -2461,3 +2461,11 @@ renewProject(MrpProject *oldproject)
 
 	return newproject;
 }
+
+MrpApplication *mrp_project_get_app(MrpProject *project)
+{
+	MrpProjectPriv *priv;
+	g_return_val_if_fail (MRP_IS_PROJECT (project), FALSE);
+	priv = project->priv;
+	return priv->app;
+}

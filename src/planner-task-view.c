@@ -759,6 +759,7 @@ task_view_auto_assignment_cb(GtkAction *action,
 	            gpointer data)
 {
 	PlannerTaskView     *view;
+	PlannerWindow       *window;
 	PlannerTaskViewPriv *priv;
 	MrpProject *project;
 	MrpProjectPriv *ppriv;
@@ -769,6 +770,7 @@ task_view_auto_assignment_cb(GtkAction *action,
 	MrpTaskManager *task_manager;
 	gboolean  exclusive1;
 	view = PLANNER_TASK_VIEW (data);
+	window = PLANNER_VIEW(view)->main_window;
 	priv = view->priv;
 	project = planner_window_get_project(PLANNER_VIEW(view)->main_window);
 	GList *resources = mrp_project_get_resources(project);
@@ -841,7 +843,7 @@ task_view_auto_assignment_cb(GtkAction *action,
 				}
 			}*/
 
-
+				if(l){
 				resource2 = l->data;
 
 							mrp_resource_assign (resource2,task2,100);
@@ -850,6 +852,24 @@ task_view_auto_assignment_cb(GtkAction *action,
 							gchar *s11 = mrp_task_get_name(task2);
 							gchar *s21 = mrp_resource_get_name(resource2);
 							g_printf("%s,%s\n",s11,s21);
+				}else{
+					GtkWidget *dialog;
+					dialog = gtk_message_dialog_new(GTK_WINDOW (window),
+						GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+						GTK_BUTTONS_CLOSE, "%s", "resource assagin disabled");
+					g_signal_connect(dialog, "response",
+						G_CALLBACK (gtk_widget_destroy), NULL);
+					gtk_widget_show(dialog);
+					/*GList *l0 = NULL;
+									for(l0 = tasklist;l0; l0 = l0->next){
+										GList *as = mrp_task_get_assignments(l0->data);
+										for(;as;as = as->next){
+											mrp_object_removed (MRP_OBJECT (as->data));
+									    }
+									}*/
+					break;
+				}
+
 		}				//hadresources = g_list_remove(hadresources,resource2);
 
 			/*else
@@ -880,6 +900,7 @@ task_view_auto_assignment_cb(GtkAction *action,
 		else
 //TODO:need else for no resource
 		{
+			if(resources){
 			resource2 = resources->data;
 			resources = resources->next;
 		/*	GList *l9 = resources;
@@ -903,6 +924,20 @@ task_view_auto_assignment_cb(GtkAction *action,
 						gchar *s2 = mrp_resource_get_name(resource2);
 						g_printf("%s,%s\n",s11,s21);
 			//hadresources = g_list_append(hadresources,resource2);
+			}else{
+				GtkWidget *dialog;
+				dialog = gtk_message_dialog_new(GTK_WINDOW (window),
+						GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+						GTK_BUTTONS_CLOSE, "%s", "resource assagin disabled");
+				g_signal_connect(dialog, "response",
+						G_CALLBACK (gtk_widget_destroy), NULL);
+				gtk_widget_show(dialog);
+				GList *l0 = NULL;
+								for(l0 = tasklist;l0; l0 = l0->next){
+									task_remove_assignments(l0->data);
+								}
+				break;
+			}
 		}
 		task1 = task2;
 		l1=l1->next;
@@ -911,8 +946,6 @@ task_view_auto_assignment_cb(GtkAction *action,
 
 	firsttasklist = sortTasklistsByFinishTime(tasklist);
 	//durationOptimize(project);
-
-
 }
 
 static void
@@ -1001,6 +1034,7 @@ task_view_pert_chart_cb		(GtkAction       *action,
 		   gtk_table_attach_defaults(GTK_TABLE(table), togglebutton,0,2,3,4);
 
 	task_list = mrp_task_manager_get_all_tasks(task_manager);
+	firsttasklist = sortTasklistsByFinishTime(task_list);
 	g_printf("lll111\n");
 	gint aa = g_list_length(task_list);
 				g_printf("%d\n",aa);
@@ -1088,7 +1122,7 @@ task_view_pert_chart_cb		(GtkAction       *action,
 
 
 	//g_list_free(pertnodes);
-	gtk_widget_show_all(windows);
+	gtk_widget_show_all(scrollwindows);
 
 
 }

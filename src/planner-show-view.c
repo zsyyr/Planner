@@ -140,7 +140,7 @@ void					displayTotalDuration(PlannerShowView *view);
 static PlannerViewClass *parent_class = NULL;
 
 static gdouble progressbarvalue = 0;
-
+static gint prosses = 0;
 static gint tasklistlength = 1;
 
 static gint currenttasknumber = -1;
@@ -566,7 +566,7 @@ show_view_project_loaded_cb (MrpProject  *project,
 	task_list = mrp_task_manager_get_all_tasks(task_manager);
 	firsttasklist = sortTasklistsByFinishTime(task_list);
 	tasklistlength = g_list_length(task_list);
-
+	prosses = tasklistlength;
 	model = GTK_TREE_MODEL (planner_gantt_model_new (project));
 
 	planner_task_tree_set_model(PLANNER_TASK_TREE (view->priv->tree),
@@ -1493,15 +1493,16 @@ gboolean timeout_callback(gpointer data) {
 	//gdouble value;
 	GString *text;
 	//value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(data) );
-
-	progressbarvalue += 0.1425;
+	gdouble interval = 1.0/prosses;
+	progressbarvalue += interval;
 //	if (value > 1.0) {
 //		value = 0.0;
 //	}
     gdouble val;
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(data), progressbarvalue);
+
 	text = g_string_new(gtk_progress_bar_get_text(GTK_PROGRESS_BAR(data) ));
-	if(progressbarvalue > 0.9)
+	if(progressbarvalue > 0.99)
 		val = 1.0;
 	else
 		val = progressbarvalue;

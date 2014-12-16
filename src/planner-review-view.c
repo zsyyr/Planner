@@ -37,6 +37,9 @@
 #include <libgnomecanvas/gnome-canvas-line.h>
 #include <glade/glade.h>
 #include <libplanner/mrp-qualification.h>
+
+static MrpProject *oldproject = NULL;
+
 struct _PlannerReviewViewPriv {
 	GtkWidget             *paned; //separately reviews pert view and dynamic gantt view
 	GtkWidget             *tree;
@@ -44,7 +47,7 @@ struct _PlannerReviewViewPriv {
 	GtkWidget             *gantt; //reviews dynamic gantt graph
 	PlannerGanttPrintData *print_data;
 
-	GtkWidget             *currenttaskentry;
+	GtkWidget             *currentdurationentry;
 	GtkWidget             *optitime;
 
 	GtkWidget             *currentresource;
@@ -96,9 +99,9 @@ static void          review_view_edit_task_cb              (GtkAction         *a
 							   gpointer           data);
 static void          review_view_add_prob_events_cb        (GtkAction *action,
 			                   gpointer   data);
+static void 			reload_oldproject_cb(GtkWidget *button,PlannerReviewView *view);
 
-
-
+static mrptime 		get_project_duration(MrpProject *project);
 static void          review_view_activate                  (PlannerView       *view);
 static void          review_view_deactivate                (PlannerView       *view);
 static void          review_view_setup                     (PlannerView       *view,
@@ -727,7 +730,7 @@ review_view_create_widget (PlannerReviewView *view)
     //GtkEntry, holds task name
     entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (entry),  TRUE, TRUE, 0);
-    priv->currenttaskentry = entry;
+    priv->currentdurationentry = entry;
 
     //GtkLabel, "The Current Delay Is:: "
     label = gtk_label_new("审计方案优化后总时间: ");
@@ -844,7 +847,7 @@ review_view_create_widget (PlannerReviewView *view)
     deleteresourcetogglebutton = gtk_toggle_button_new_with_label("否");
     g_signal_connect (deleteresourcetogglebutton ,
             			  "clicked",
-            			  G_CALLBACK (read_file_cb),
+            			  G_CALLBACK (reload_oldproject_cb),
             			 view);
 
     /*font1 = pango_font_description_from_string("Sans");//"Sans"字体名
@@ -1591,6 +1594,48 @@ void write_precedence(MrpProject *project)
 }
 
 
+
+mrptime get_project_duration(MrpProject *project){
+	GList *alltasks = NULL;
+	GList *l = NULL;
+	MrpTask *lasttask = NULL;
+	MrpTask *starttask = NULL;
+	mrptime duration = 0;
+	mrptime first_start = 0;
+	mrptime last_finish = 0;
+	mrptime last_time = 0;
+	mrptime first_time = 0;
+	alltasks = mrp_project_get_all_tasks(project);
+//	lasttask = g_list_last(alltasks)->data;
+//	starttask = g_list_first(alltasks)->data;
+	for(l = alltasks;l;l = l->next){
+			first_time = mrp_task_get_start(l->data);
+			first_start = first_time;
+			if(first_start > first_time)
+				first_start = first_time;
+			g_printf("first name: %s \n",mrp_task_get_name(l->data));
+			g_printf("the last time is %d\n",first_time);
+			g_printf("the f time is %d\n",first_start);
+		}
+
+	for(l = alltasks;l;l = l->next){
+		last_time = mrp_task_get_finish(l->data);
+		if(last_finish < last_time)
+			last_finish = last_time;
+	}
+
+//	first_start = mrp_task_get_finish(starttask);
+//	last_finish = mrp_task_get_finish(lasttask);
+	duration = last_finish - first_start;
+	g_printf("last name: %s \n",mrp_task_get_name(lasttask));
+
+	g_printf("the last time is %d\n",first_start);
+	g_printf("the last time is %d\n",last_finish);
+	g_printf("the last time is %d\n",duration);
+
+	return duration;
+}
+
 GArray *readfile (gchar *path)
 {
 
@@ -1646,15 +1691,17 @@ GArray *readfile (gchar *path)
     return array;
 }
 
+
+
 static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 {
 	MrpProject *project;
-	GArray *start_array = NULL;
-	GList *alltasks = NULL;
-	GList *l = NULL;
-	gchar *durationpath = "/usr/local/bin/result.txt";
-	mrptime starttime = 0;
 
+
+	mrptime starttime = 0;
+	PlannerReviewViewPriv *priv;
+	mrptime old_duration = 0;
+	priv = view->priv;
 	int i = 0;
 	//gchar *writefilepath = "/home/zms/test/testwrite";
 	//readfile(filepath);
@@ -1662,47 +1709,44 @@ static void read_file_cb(GtkWidget *button,PlannerReviewView *view)
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
 	set_all_task_ids(project);
 
-	/*write_duration(project);
-	write_precedence(project);
-	write_resource_sum(project);
-	write_resource_odd(project);
 
 
-	system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");*/
-	start_array = readfile(durationpath);
-	alltasks = mrp_project_get_all_tasks(project);
-	starttime = mrp_project_get_project_start (project);
-	for(l = alltasks;l;l = l->next)
-	{
-		starttime += g_array_index(start_array,int,i)*60*60*24;
-		g_printf("%d\n",starttime);
-		i++;
-		imrp_task_set_start(l->data,starttime);
-		MrpConstraint constraint = {MRP_CONSTRAINT_MSO,starttime};
-//		constraint.time = starttime;
-//		constraint.type = MRP_CONSTRAINT_MSO;
-		mrp_object_set (l->data, "constraint", &constraint, NULL);
+}
 
-	}
-
+static void reload_oldproject_cb(GtkWidget *button,PlannerReviewView *view)
+{
+	GError   *error = NULL;
+	gchar *old_uri;
+	if(oldproject)
+		old_uri = mrp_project_get_uri(oldproject);
+	mrp_project_load (oldproject, old_uri, &error);
 }
 
 static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 {
 	PlannerReviewViewPriv *priv;
+	MrpApplication *app = NULL;
 	MrpProject *project;
+	MrpProject *newproject;
 	gchar      *old_uri;
 	gchar      *opt_uri;
 	gchar 		 *position;
 	gchar		*test_uri;
 	GError   *error = NULL;
+	mrptime old_duration = 0;
+	gchar *durationpath = "/usr/local/bin/result.txt";
+	gint i = 0;
+	GArray *start_array = NULL;
+		GList *alltasks = NULL;
+		GList *l = NULL;
 	gboolean success;
-	GList    *alltasks;
-	GList    *l;
+	mrptime starttime = 0;
+
 	gchar *filepath = "/home/zms/test/readfile";
 	project = planner_window_get_project (PLANNER_VIEW (view)->main_window);
-
-
+	oldproject = project;
+	app = mrp_project_get_app(project);
+	priv = view->priv;
 	old_uri = mrp_project_get_uri(project);
 //	g_return_val_if_fail (MRP_IS_PROJECT (project), FALSE);
 //	g_return_val_if_fail (old_uri != NULL && old_uri[0] != '\0', FALSE);
@@ -1714,14 +1758,42 @@ static void get_copy_project_cb(GtkWidget *button,PlannerReviewView *view)
 		opt_uri = g_strconcat (old_uri, "_optimize.planner", NULL);
 
 	g_free(old_uri);
-/*
+	newproject = mrp_project_new(app);
 	project_do_save (project, opt_uri,TRUE, &error);
-	test_uri = "/home/zms/planner/examples/shenji.planner";
-	mrp_project_load (project, test_uri, &error);*/
+	test_uri = "/home/zms/planner/examples/a.planner";
+	mrp_project_load (newproject, opt_uri, &error);
 
-	print_all_task_names(project);
-	set_all_task_ids(project);
 
+	print_all_task_names(newproject);
+	set_all_task_ids(newproject);
+
+	old_duration = get_project_duration(oldproject);
+	old_duration = old_duration / (60 * 60 * 24);
+	gchar *str = planner_format_float(old_duration, 2, FALSE);
+	gtk_entry_set_text(GTK_ENTRY (priv->currentdurationentry), str);
+
+	write_duration(project);
+		write_precedence(project);
+		write_resource_sum(project);
+		write_resource_odd(project);
+
+
+		system("/usr/local/MATLAB/R2010b/bin/matlab -nojvm -nodesktop -nodisplay -r ItemNoSource1 >test.out");
+		start_array = readfile(durationpath);
+		alltasks = mrp_project_get_all_tasks(project);
+		starttime = mrp_project_get_project_start (project);
+		for(l = alltasks;l;l = l->next)
+		{
+			starttime += g_array_index(start_array,int,i)*60*60*24;
+			g_printf("%d\n",starttime);
+			i++;
+			imrp_task_set_start(l->data,starttime);
+			MrpConstraint constraint = {MRP_CONSTRAINT_MSO,starttime};
+	//		constraint.time = starttime;
+	//		constraint.type = MRP_CONSTRAINT_MSO;
+			mrp_object_set (l->data, "constraint", &constraint, NULL);
+
+		}
 
 
 }

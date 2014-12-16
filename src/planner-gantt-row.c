@@ -1554,7 +1554,7 @@ gantt_row_draw (GnomeCanvasItem *item,
 									     dshay1 + i2w_dy,
 									     (workup_end * priv->scale) + i2w_dx,
 									     dshay2 + i2w_dy,
-									     cy1, cy2, x, y,  TRUE, "white");
+									     cy1, cy2, x, y,  TRUE, "LightSkyBlue3");
 						}
 						workup_draw_it = FALSE;
 						workup_is_cached = FALSE;
@@ -1575,7 +1575,7 @@ gantt_row_draw (GnomeCanvasItem *item,
 									     dshay1 + i2w_dy,
 									     (workdo_end * priv->scale) + i2w_dx,
 									     dshay2 + i2w_dy,
-									     cy1, cy2, x, y,  FALSE, "white");
+									     cy1, cy2, x, y,  FALSE, "LightSkyBlue3");
 
 							workdo_draw_it = FALSE;
 							workdo_is_cached = FALSE;
@@ -1726,7 +1726,7 @@ gantt_row_draw (GnomeCanvasItem *item,
 								dshay1 + i2w_dy,
 								(workup_end * priv->scale) + i2w_dx,
 								dshay2 + i2w_dy,
-								cy1, cy2, x, y,	 TRUE, "white");
+								cy1, cy2, x, y,	 TRUE, "LightSkyBlue3");
 				}
 
 				/* Show work down. */
@@ -1738,7 +1738,7 @@ gantt_row_draw (GnomeCanvasItem *item,
 								dshay1 + i2w_dy,
 								(workdo_end * priv->scale) + i2w_dx,
 								dshay2 + i2w_dy,
-								cy1, cy2, x, y,  FALSE, "white");
+								cy1, cy2, x, y,  FALSE, "LightSkyBlue3");
 				}
 			}
 		}
